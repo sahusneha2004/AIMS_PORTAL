@@ -4,6 +4,11 @@ const studentSchema = new mongoose.Schema({
   name: {
     type : String,
   },
+    studentId: {
+    type: String,
+    required: true,
+    unique: true, 
+    },
   enrollmentYear: {
     type: Number,
   },
