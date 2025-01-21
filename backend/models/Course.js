@@ -1,32 +1,28 @@
 const mongoose = require('mongoose');
 
 const courseSchema = new mongoose.Schema({
-  courseId: {
+  
+  coursecode: {
     type: String,
-    required: true,
-    unique: true,
   },
-  courseName: {
+  coursename: {
     type: String,
-    required: true,
   },
-  offeringDepartment: {
-    type: mongoose.Schema.Types.ObjectId,
-    ref: 'Department',
-    required: true,
-  },
-  credits: {
-    type: Number,
-    required: true,
+  department: {
+    type : String,
   },
   ltpsc: String,
   prerequisites: [
     {
-      type: mongoose.Schema.Types.ObjectId,
-      ref: 'Course', // Reference to the Course model
+      type: String,
     },
   ],
+  status: {
+    type: String,
+    enum: ['created', 'offered', 'approved','notoffered'],
+    required: true,
+  },
 });
 
-const Course = mongoose.model('Course', courseSchema);
-module.exports = Course;
+const course = mongoose.model('course', courseSchema);
+module.exports = course;

@@ -1,28 +1,19 @@
 const mongoose = require('mongoose');
 
 const facultySchema = new mongoose.Schema({
-  userId: {
-    type: mongoose.Schema.Types.ObjectId,
-    ref: 'User',
-    required: true,
-  },
-  facultyId: {
+
+  name: {
     type: String,
-    required: true,
-    unique: true,
   },
-  departmentId: {
-    type: mongoose.Schema.Types.ObjectId,
-    ref: 'Department',
-    required: true,
+  // redundancy in fetching the id first to get just the name
+  department: {
+    type : String,
   },
   designation: {
     type: String,
-    required: true,
   },
   joiningYear: {
     type: Number,
-    required: true,
   },
   retiringYear: {
     type: Number,
