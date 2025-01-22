@@ -7,6 +7,10 @@ function ActionPending(){
     const [main, setMain] = useState(false)
     const [enrollment, setEnrollment] = useState(false)
     const [data, setData] = useState([]);
+    
+    useEffect( () => {
+        handleCreate();
+    }, [])
 
     async function handleCreate(){
         setCreate(true)
@@ -26,6 +30,7 @@ function ActionPending(){
         setCreate(false)
         try {
             const response = await axios.get('http://localhost:5000/faculty/courseneedadminapproval');
+            console.log(response.data[0].eligibleBatches);
             setData(response.data);
         } catch (error) {
             console.error('Error fetching data for main:', error);
@@ -65,7 +70,7 @@ function ActionPending(){
                     </tr>
                     </thead>
                     <tbody>
-                        {data.map((d,index) => (
+                        {data&&data.map((d,index) => (
                             <tr className={index % 2 === 0 ? 'bg-gray-200' : 'bg-white hover:bg-gray-200'} >
                                 <td>{d.coursecode}</td>
                                 <td>{d.coursename}</td>
@@ -92,13 +97,12 @@ function ActionPending(){
                     </tr>
                     </thead>
                     <tbody>
-                        {data.map((d,index) => (
+                        {data && data.map((d,index) => (
                             <tr className={index % 2 === 0 ? 'bg-gray-200' : 'bg-white hover:bg-gray-200'} >
                                 <td>2024-I</td>
                                 <td>{d.coursecode}</td>
-                                <td>{d.eligibleBatches.forEach( (e)=> (
-                                    <h1>{e}</h1>
-                                ) )}</td>
+                                <td> {d.eligibleBatches &&  d.eligibleBatches.map( (e)=> (
+                                    <h1>{e}</h1>))} </td>
                                 <td>{d.maxSeats} </td>
                                 <td className='font-semibold'>Needs Admin Approval</td>
                             </tr>
@@ -124,7 +128,7 @@ function ActionPending(){
                     </tr>
                     </thead>
                     <tbody>
-                        {data.map((d,index) => (
+                        {data&&data.map((d,index) => (
                             <tr className={index % 2 === 0 ? 'bg-gray-200' : 'bg-white hover:bg-gray-200'} >
                                 <td>2024-I</td>
                                 <td>CS-302</td>

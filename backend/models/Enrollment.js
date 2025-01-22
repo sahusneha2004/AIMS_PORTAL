@@ -12,18 +12,13 @@ const enrollmentSchema = new mongoose.Schema({
   },
   status: {
     type: String,
-    enum: ['running', 'completed', 'dropped', 'pendingInstructorApproval'],
+    enum: ['running', 'completed', 'dropped', 'pendingInstructorApproval', 'pendingAdvisorApproval'],
     required: true,
   },
   offeringId: {
     type: mongoose.Schema.Types.ObjectId,
     ref: 'Offering',
     required: true,
-  },
-  grades: String,
-  feedbackId: {
-    type: mongoose.Schema.Types.ObjectId,
-    ref: 'Feedback',
   },
 });
 

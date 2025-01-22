@@ -5,16 +5,16 @@ const offeringSchema = new mongoose.Schema({
   facultyId: {
     type: mongoose.Schema.Types.ObjectId,
     ref: 'Faculty',
+    required : true,
   },
-  coursecode :{
+  courseCode :{
     type : String,
+    required : true,
   },
   sessionId: {
     type: mongoose.Schema.Types.ObjectId,
     ref: 'Session',
-  },
-  slot: {
-    type: String,
+    required : true,
   },
   status: {
     type: String,
@@ -26,6 +26,7 @@ const offeringSchema = new mongoose.Schema({
   eligibleBatches :[
     {
       type : Number,
+      required : true,
     }
   ]
 });

@@ -2,16 +2,22 @@ const mongoose = require('mongoose');
 
 const courseSchema = new mongoose.Schema({
   
-  coursecode: {
+  courseCode: {
     type: String,
+    required : true,
   },
-  coursename: {
+  courseName: {
     type: String,
+    required : true,
   },
-  department: {
+  departmentName: {
     type : String,
+    required : true,
   },
-  ltpsc: String,
+  ltpsc: {
+    type : String,
+    required : true,
+  },
   prerequisites: [
     {
       type: String,
@@ -19,7 +25,7 @@ const courseSchema = new mongoose.Schema({
   ],
   status: {
     type: String,
-    enum: ['created', 'offered', 'approved','notoffered'],
+    enum: ['approved','notapproved'],
     required: true,
   },
 });

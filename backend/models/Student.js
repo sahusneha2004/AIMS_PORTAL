@@ -1,26 +1,22 @@
 const mongoose = require('mongoose');
 
 const studentSchema = new mongoose.Schema({
-  name: {
-    type : String,
-  },
-    studentId: {
-    type: String,
+  
+  userId: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'User',
     required: true,
-    unique: true, 
-    },
+  },
   enrollmentYear: {
     type: Number,
   },
   program: {
     type: String,
+    required : true,
   },
   department :{
     type : String,
-  },
-  categoryId: {
-    type: mongoose.Schema.Types.ObjectId,
-    ref: 'Category',
+    required: true,
   },
   studentImage: {
     data: Buffer,
