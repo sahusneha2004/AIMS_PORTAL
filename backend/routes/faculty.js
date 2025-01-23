@@ -5,16 +5,18 @@ const Enrollment = require('../models/Enrollment')
 const Offering = require('../models/Offering')
 const course = require('../models/Course')
 const session = require('../models/Session')
+const user = require('../models/User')
+const student = require('../models/Student')
 
 // create a course by faculty
 router.post('/createcourse', async (req, res) => {
     const savedCourse = await course.create({
-        coursecode : req.body.coursecode,
-        coursename : req.body.coursename,
-        department : req.body.department,
+        courseCode : req.body.coursecode,
+        courseName : req.body.coursename,
+        departmentName : req.body.department,
         ltpsc : req.body.ltpsc,
         prerequisites : req.body.prerequisites,
-        status : 'created',
+        status : 'notapproved',
     });
     res.json({ message: 'Course added successfully'});
 });
@@ -25,7 +27,8 @@ router.post('/offercourse' , async(req,res) =>{
     
     const s = await session.findOne({academicYear : Number(req.body.academicyear) , phase : req.body.phase })
     const offering = await Offering.create({
-        coursecode : req.body.coursecode,
+        // facultyId :
+        courseCode : req.body.coursecode,
         sessionId : s._id,
         status : 'pendingAdminApproval',
         eligibleBatches : req.body.batch,
@@ -38,7 +41,7 @@ router.post('/offercourse' , async(req,res) =>{
 // fetch all the courses that have been available for offerings
 router.get('/availablecourse', async(req,res) => {
 
-    const courses = await course.find();
+    const courses = await course.find({status : 'approved'});
     res.status(200).json(courses);
 })
 
@@ -52,14 +55,24 @@ router.get('/courseneedadminapproval', async (req,res) =>{
 
 // fetch all the students that must be given acceptance or rejection
 router.get('/studentneedapproval', async (req,res) =>{
-    const enrollment = await Enrollment.find({status : 'pendingInstructorApproval'})
+    const enrollment = await Enrollment.find({ status: 'pendingInstructorApproval' })
+    .populate('studentId')
+    .populate({
+        path: 'studentId',
+        populate: { path: 'userId' },
+    })
+    .populate('offeringId')
+    .populate({
+        path: 'offeringId',
+        populate: { path: 'sessionId' },
+    });
     res.status(200).json(enrollment);
 })
 
 
 // fetch all the courses you created and needs approval from admin
 router.get('/createdcourseneedapproval', async (req,res) =>{
-    const courses = await course.find({status : 'created'});
+    const courses = await course.find({status : 'notapproved'});
     res.status(200).json(courses);
 })
 
@@ -74,5 +87,25 @@ router.get('/createdcourses' , async (req,res) =>{
     const courses = await course.find({status : 'approved'});
     res.status(200).json(courses);
 })
+
+router.post('/changecoursestatus', async (req, res) => {
+    try {
+        const { ids, action } = req.body; // Receive selected row IDs and action
+        if (!ids || !action) {
+            return res.status(400).json({ error: 'Invalid request data' });
+        }
+
+        // Update status for all selected IDs
+        await Enrollment.updateMany(
+            { _id: { $in: ids } },
+            { $set: { status: action === 'Approve' ? 'pendingAdvisorApproval' : 'rejected' } }
+        );
+
+        res.status(200).json({ message: `Status updated to ${action}` });
+    } catch (error) {
+        console.error('Error updating status:', error);
+        res.status(500).json({ error: 'Failed to update status' });
+    }
+});
 
 module.exports = router;

@@ -32,10 +32,10 @@ function MyCreatedCourses(){
                     <tbody>
                         {data.map((d,index) => (
                             <tr className={index % 2 === 0 ? 'bg-gray-200' : 'bg-white hover:bg-gray-200'} >
-                                <td>2024-I</td>
-                                <td>{d.coursecode}</td>
-                                <td>{d.coursename}</td>
-                                <td>{d.department}</td>
+                                <td>2025-I</td>
+                                <td>{d.courseCode}</td>
+                                <td>{d.courseName}</td>
+                                <td>{d.departmentName}</td>
                                 <td>{d.ltpsc}</td>
                                 <td className='font-semibold'>Approved by Admin</td>
                             </tr>

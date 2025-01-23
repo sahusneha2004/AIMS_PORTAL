@@ -8,6 +8,10 @@ function ActionPending(){
     const [enrollment, setEnrollment] = useState(false)
     const [data, setData] = useState([]);
     
+    const [isChecked, setIschecked] = useState(false);
+    const [selectedRows, setSelectedRows] = useState([]);
+    const [show , setShow] = useState(false)
+
     useEffect( () => {
         handleCreate();
     }, [])
@@ -48,6 +52,35 @@ function ActionPending(){
             console.error('Error fetching data for enrollment:', error);
         }
     }
+
+    const handleCheckboxChange = (id) => {
+        if (selectedRows.includes(id)) {
+            setSelectedRows(selectedRows.filter((rowId) => rowId !== id)); // Unselect row
+        } else {
+            setSelectedRows([...selectedRows, id]); // Select row
+        }
+    };
+    
+    function handleClick(){
+        setShow(!show)
+    }
+
+    const handleAction = async (action) => {
+        try {
+            // Send selected row IDs and action to the backend
+            await axios.post('http://localhost:5000/faculty/changecoursestatus', {
+                ids: selectedRows,
+                action: action,
+            });
+            setShow(false)
+            alert(`${action} action applied successfully`);
+            setSelectedRows([]);
+            handleEnrollment();
+        } catch (error) {
+            console.error(`Error applying ${action} action:`, error);
+        }
+    };
+    
     
     return (
     
@@ -72,9 +105,9 @@ function ActionPending(){
                     <tbody>
                         {data&&data.map((d,index) => (
                             <tr className={index % 2 === 0 ? 'bg-gray-200' : 'bg-white hover:bg-gray-200'} >
-                                <td>{d.coursecode}</td>
-                                <td>{d.coursename}</td>
-                                <td>{d.department}</td>
+                                <td>{d.courseCode}</td>
+                                <td>{d.courseName}</td>
+                                <td>{d.departmentName}</td>
                                 <td>{d.ltpsc}</td>
                                 <td className='font-semibold'>Needs Admin Approval</td>
                             </tr>
@@ -100,11 +133,11 @@ function ActionPending(){
                         {data && data.map((d,index) => (
                             <tr className={index % 2 === 0 ? 'bg-gray-200' : 'bg-white hover:bg-gray-200'} >
                                 <td>2024-I</td>
-                                <td>{d.coursecode}</td>
+                                <td>{d.courseCode}</td>
                                 <td> {d.eligibleBatches &&  d.eligibleBatches.map( (e)=> (
                                     <h1>{e}</h1>))} </td>
                                 <td>{d.maxSeats} </td>
-                                <td className='font-semibold'>Needs Admin Approval</td>
+                                <td className='font-semibold'>{d.status}</td>
                             </tr>
                         ))}
                     </tbody>
@@ -124,23 +157,50 @@ function ActionPending(){
                         <th className='font-light'>Batch-year</th>
                         <th className='font-light'>Department</th>
                         <th className='font-light'>Status</th>
-                        <th className='font-light'>Action</th>
+                        <th className='font-light'>
+
+                        <div className="relative">
+                            <button
+                            className="px-2 py-1 bg-orange-500 text-white rounded"
+                            onClick={handleClick}>Action</button>
+                            {show && < div
+                            className="absolute right-0 mt-1 w-32 bg-white shadow-lg border "
+                            style={{ zIndex: 1000 }}>
+                                <button
+                                className="block w-full px-2 py-1 hover:bg-gray-200 text-left"
+                                onClick={() => handleAction('Approve')}>Approve</button>
+                                <button
+                                className="block w-full px-2 py-1 hover:bg-gray-200 text-left"
+                                onClick={() => handleAction('Reject')}>Reject</button>
+                            </div>}
+                        </div>
+                        </th>
                     </tr>
                     </thead>
                     <tbody>
-                        {data&&data.map((d,index) => (
-                            <tr className={index % 2 === 0 ? 'bg-gray-200' : 'bg-white hover:bg-gray-200'} >
-                                <td>2024-I</td>
-                                <td>CS-302</td>
-                                <td>Prateek Bansal</td>
-                                <td>2022</td>
-                                <td>Dept of Computer Science </td>
-                                <td className='font-semibold'>Enrolling</td>
-                                <button >Offer</button>
+                        {data && data.map((d, index) => (
+                            <tr key={index} className={index % 2 === 0 ? 'bg-gray-200' : 'bg-white hover:bg-gray-200'}>
+                                <td>{d.offeringId?.sessionId.academicYear || 'N/A'} {d.offeringId?.sessionId.phase || 'N/A'} </td>
+                                <td>{d.offeringId?.courseCode || 'N/A'}</td>
+                                <td>{d.studentId?.userId?.name || 'N/A'}</td>
+                                <td>{d.studentId?.enrollmentYear || 'N/A'}</td>
+                                <td>{d.studentId?.department || 'N/A'}</td>
+                                <td className='font-semibold'>{d.status}</td>
+                                <td className='flex gap-2'>
+                                    <input type="checkbox"
+                                        onChange={() => handleCheckboxChange(d._id)}
+                                        checked={selectedRows.includes(d._id)}
+                                    />
+                                </td>
                             </tr>
                         ))}
                     </tbody>
+
                 </table>
+
+                
+
+                
             )
         }
     </div>

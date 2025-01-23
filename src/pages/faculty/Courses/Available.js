@@ -32,9 +32,9 @@ function Available(){
                 <div className='flex flex-wrap '>
                     {courses.map((course) => (
                         <div className='border w-80 p-5 text-sm'>
-                            <h1>{course.department}</h1>
-                            <h1>{course.coursecode}</h1>
-                            <h1>{course.coursename}</h1>
+                            <h1>{course.departmentName}</h1>
+                            <h1>{course.courseCode}</h1>
+                            <h1>{course.courseName}</h1>
                             <h1>{course.ltpsc}</h1>
                         </div>
                     ))}
