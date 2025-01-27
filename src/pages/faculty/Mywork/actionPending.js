@@ -6,11 +6,17 @@ function ActionPending(){
     const [create , setCreate] = useState(true)
     const [main, setMain] = useState(false)
     const [enrollment, setEnrollment] = useState(false)
+    const [advisor, setAdvisor]  = useState(false);
     const [data, setData] = useState([]);
     
+    // set this to true if your looged in faculty is an advisor
+    const isadvisor = true;
+
     const [isChecked, setIschecked] = useState(false);
     const [selectedRows, setSelectedRows] = useState([]);
+    const [rows , setRows] = useState([]);
     const [show , setShow] = useState(false)
+    const [s , setS] = useState(false)
 
     useEffect( () => {
         handleCreate();
@@ -20,6 +26,7 @@ function ActionPending(){
         setCreate(true)
         setMain(false)
         setEnrollment(false)
+        setAdvisor(false)
         try {
             const response = await axios.get('http://localhost:5000/faculty/createdcourseneedapproval');
             setData(response.data);
@@ -29,6 +36,7 @@ function ActionPending(){
     }
 
     async function handleMain(){
+        setAdvisor(false)
         setEnrollment(false)
         setMain(true)
         setCreate(false)
@@ -45,8 +53,22 @@ function ActionPending(){
         setMain(false)
         setEnrollment(true)
         setCreate(false)
+        setAdvisor(false)
         try {
             const response = await axios.get('http://localhost:5000/faculty/studentneedapproval');
+            setData(response.data);
+        } catch (error) {
+            console.error('Error fetching data for enrollment:', error);
+        }
+    }
+
+    async function handleAdvisor(){
+        setAdvisor(true)
+        setMain(false)
+        setCreate(false)
+        setEnrollment(false)
+        try {
+            const response = await axios.get('http://localhost:5000/faculty/studentneedadvisorapproval');
             setData(response.data);
         } catch (error) {
             console.error('Error fetching data for enrollment:', error);
@@ -61,8 +83,20 @@ function ActionPending(){
         }
     };
     
+    const handleCheckbox = (id) => {
+        if (rows.includes(id)) {
+            setRows(rows.filter((rowId) => rowId !== id)); // Unselect row
+        } else {
+            setRows([...rows, id]); // Select row
+        }
+    };
+
     function handleClick(){
         setShow(!show)
+    }
+
+    function handleClickadvisor(){
+        setS(!s)
     }
 
     const handleAction = async (action) => {
@@ -80,6 +114,22 @@ function ActionPending(){
             console.error(`Error applying ${action} action:`, error);
         }
     };
+
+    const handleActionadvisor = async (action) => {
+        try {
+            // Send selected row IDs and action to the backend
+            await axios.post('http://localhost:5000/faculty//changecoursestatusadvisor', {
+                ids: rows,
+                action: action,
+            });
+            setS(false)
+            alert(`${action} action applied successfully`);
+            setRows([]);
+            handleAdvisor();
+        } catch (error) {
+            console.error(`Error applying ${action} action:`, error);
+        }
+    };
     
     
     return (
@@ -89,6 +139,7 @@ function ActionPending(){
             <button onClick={handleCreate} className='pl-1 border border-gray-500 bg-gray-300' > New Courses Created </button>
             <button onClick={handleMain} className='pl-1 border border-gray-500 bg-gray-300' > OfferedCourses </button>
             <button onClick={handleEnrollment} className='pl-1 border border-gray-500 bg-gray-300' >Enrollment</button>
+            {isadvisor && <button onClick={handleAdvisor} className='pl-1 border border-gray-500 bg-gray-300' >Approve as Advisor</button> }
         </div>
         {create &&
             (
@@ -104,7 +155,7 @@ function ActionPending(){
                     </thead>
                     <tbody>
                         {data&&data.map((d,index) => (
-                            <tr className={index % 2 === 0 ? 'bg-gray-200' : 'bg-white hover:bg-gray-200'} >
+                            <tr className={index % 2 === 0 ? 'bg-gray-200' : 'bg-white '} >
                                 <td>{d.courseCode}</td>
                                 <td>{d.courseName}</td>
                                 <td>{d.departmentName}</td>
@@ -131,8 +182,8 @@ function ActionPending(){
                     </thead>
                     <tbody>
                         {data && data.map((d,index) => (
-                            <tr className={index % 2 === 0 ? 'bg-gray-200' : 'bg-white hover:bg-gray-200'} >
-                                <td>2024-I</td>
+                            <tr className={index % 2 === 0 ? 'bg-gray-200' : 'bg-white '} >
+                                {d && <td> {d.sessionId?.academicYear || 'N/A'} {d.sessionId?.phase || 'N/A'} </td>}
                                 <td>{d.courseCode}</td>
                                 <td> {d.eligibleBatches &&  d.eligibleBatches.map( (e)=> (
                                     <h1>{e}</h1>))} </td>
@@ -179,8 +230,8 @@ function ActionPending(){
                     </thead>
                     <tbody>
                         {data && data.map((d, index) => (
-                            <tr key={index} className={index % 2 === 0 ? 'bg-gray-200' : 'bg-white hover:bg-gray-200'}>
-                                <td>{d.offeringId?.sessionId.academicYear || 'N/A'} {d.offeringId?.sessionId.phase || 'N/A'} </td>
+                            <tr key={index} className={index % 2 === 0 ? 'bg-gray-200' : 'bg-white '}>
+                                {d&&<td>{d.offeringId?.sessionId.academicYear || 'N/A'} {d.offeringId?.sessionId.phase || 'N/A'} </td>}
                                 <td>{d.offeringId?.courseCode || 'N/A'}</td>
                                 <td>{d.studentId?.userId?.name || 'N/A'}</td>
                                 <td>{d.studentId?.enrollmentYear || 'N/A'}</td>
@@ -203,6 +254,66 @@ function ActionPending(){
                 
             )
         }
+        
+        {
+            advisor &&
+            (
+                <table className="table-auto border-collapse border border-gray-300 w-full text-left">
+                    <thead>
+                    <tr>
+                        <th className='font-light'>Academic Session</th>
+                        <th className='font-light'>Course Code</th>
+                        <th className='font-light'>Student Name</th>
+                        <th className='font-light'>Batch-year</th>
+                        <th className='font-light'>Department</th>
+                        <th className='font-light'>Status</th>
+                        <th className='font-light'>
+
+                        <div className="relative">
+                            <button
+                            className="px-2 py-1 bg-orange-500 text-white rounded"
+                            onClick={handleClickadvisor}>Action</button>
+                            {s && < div
+                            className="absolute right-0 mt-1 w-32 bg-white shadow-lg border "
+                            style={{ zIndex: 1000 }}>
+                                <button
+                                className="block w-full px-2 py-1 hover:bg-gray-200 text-left"
+                                onClick={() => handleActionadvisor('Approve')}>Approve</button>
+                                <button
+                                className="block w-full px-2 py-1 hover:bg-gray-200 text-left"
+                                onClick={() => handleActionadvisor('Reject')}>Reject</button>
+                            </div>}
+                        </div>
+                        </th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                        {data && data.map((d, index) => (
+                            <tr key={index} className={index % 2 === 0 ? 'bg-gray-200' : 'bg-white '}>
+                                {d&&<td>{d.offeringId?.sessionId.academicYear || 'N/A'} {d.offeringId?.sessionId.phase || 'N/A'} </td>}
+                                <td>{d.offeringId?.courseCode || 'N/A'}</td>
+                                <td>{d.studentId?.userId?.name || 'N/A'}</td>
+                                <td>{d.studentId?.enrollmentYear || 'N/A'}</td>
+                                <td>{d.studentId?.department || 'N/A'}</td>
+                                <td className='font-semibold'>{d.status}</td>
+                                <td className='flex gap-2'>
+                                    <input type="checkbox"
+                                        onChange={() => handleCheckbox(d._id)}
+                                        checked={rows.includes(d._id)}
+                                    />
+                                </td>
+                            </tr>
+                        ))}
+                    </tbody>
+
+                </table>
+
+                
+
+                
+            )
+        }
+
     </div>
     )
 

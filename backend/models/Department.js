@@ -4,6 +4,10 @@ const mongoose = require('mongoose');
 const departmentSchema = new mongoose.Schema({
     departmentName: {
         type: String,
+    },
+    facultyAdvisor :{
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'Faculty',
     }
 });
 

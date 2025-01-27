@@ -28,6 +28,10 @@ const courseSchema = new mongoose.Schema({
     enum: ['approved','notapproved'],
     required: true,
   },
+  facultyId : {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'Faculty',
+  }
 });
 
 const course = mongoose.model('course', courseSchema);

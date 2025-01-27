@@ -4,6 +4,7 @@ const mongoose = require('mongoose');
 const { MongoClient } = require('mongodb');
 
 const facultyRoutes = require('./routes/faculty');
+//const adminRoutes = require('./routes/admin.js')
 
 const app = express();
 app.use(cors());
@@ -11,6 +12,7 @@ app.use(express.json());
 
 
 app.use('/faculty', facultyRoutes);
+//app.use('/admin',adminRoutes)
 app.listen(5000)
 
 mongoose.connect("mongodb://127.0.0.1:27017/AIMS-Portal")

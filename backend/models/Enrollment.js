@@ -6,6 +6,13 @@ const enrollmentSchema = new mongoose.Schema({
     ref: 'Student',
     required: true,
   },
+  facultyId: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'Faculty',
+  },
+  departmentName : {
+    type : String,
+  },
   enrollmentDate: {
     type: Date,
     required: true,

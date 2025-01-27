@@ -31,8 +31,7 @@ function MyCreatedCourses(){
                     </thead>
                     <tbody>
                         {data.map((d,index) => (
-                            <tr className={index % 2 === 0 ? 'bg-gray-200' : 'bg-white hover:bg-gray-200'} >
-                                <td>2025-I</td>
+                            <tr className={index % 2 === 0 ? 'bg-gray-200' : 'bg-white '} >
                                 <td>{d.courseCode}</td>
                                 <td>{d.courseName}</td>
                                 <td>{d.departmentName}</td>

@@ -7,6 +7,11 @@ const studentSchema = new mongoose.Schema({
     ref: 'User',
     //required: true,
   },
+  studentId : {
+    type : String,
+    required : true,
+    unique : true,
+  },
   enrollmentYear: {
     type: Number,
   },
@@ -17,10 +22,6 @@ const studentSchema = new mongoose.Schema({
   department :{
     type : String,
     required: true,
-  },
-  studentImage: {
-    data: Buffer,
-    contentType: String,  // Store image content type (e.g., 'image/jpeg')
   },
 });
 
