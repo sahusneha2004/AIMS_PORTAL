@@ -2,6 +2,9 @@ import React, { useEffect, useState } from "react";
 import axios from "axios";
 import Header from "./admin";
 import { useAuth } from '../../AuthContext';
+require('dotenv').config();
+
+const ADMIN_URL = process.env.ADMIN_URL;
 const DepartmentsPage = () => {
   const [departments, setDepartments] = useState([]);
   const [newDepartmentName, setNewDepartmentName] = useState("");
@@ -10,7 +13,7 @@ const DepartmentsPage = () => {
   // Fetch all departments
   const fetchDepartments = async () => {
     try {
-      const response = await axios.get("http://localhost:8080/admin/departments");
+      const response = await axios.get(`${ADMIN_URL}/departments`);
       setDepartments(response.data);
     } catch (error) {
       console.error("Error fetching departments:", error);
@@ -25,7 +28,7 @@ const DepartmentsPage = () => {
     }
 
     try {
-      await axios.post("http://localhost:8080/admin/departments", {
+      await axios.post(`${ADMIN_URL}/departments`, {
         departmentName: newDepartmentName,
       });
       setNewDepartmentName(""); // Clear the input field

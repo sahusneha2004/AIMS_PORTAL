@@ -1,7 +1,9 @@
 import React, { useState } from 'react';
 import axios from 'axios';
 import Header from './admin';
+require('dotenv').config();
 
+const ADMIN_URL = process.env.ADMIN_URL;
 function AcademicEvents() {
     const [academicYear, setAcademicYear] = useState('');
     const [phase, setPhase] = useState('');
@@ -28,7 +30,7 @@ const     [isFormVisible, setIsFormVisible] = useState(null); // null means no f
             setError(''); // Clear any previous errors
 
             // Step 1: Fetch session ID
-            const sessionResponse = await axios.get('http://localhost:8080/admin/session', {
+            const sessionResponse = await axios.get(`${ADMIN_URL}/session`, {
                 params: { academicYear, phase },
             });
 
@@ -36,7 +38,7 @@ const     [isFormVisible, setIsFormVisible] = useState(null); // null means no f
             console.log('Session ID:', sessionId);
 
             // Step 2: Fetch events using session ID
-            const eventsResponse = await axios.get('http://localhost:8080/admin/events', {
+            const eventsResponse = await axios.get(`${ADMIN_URL}/events`, {
                 params: { sessionId },
             });
 
@@ -51,7 +53,7 @@ const     [isFormVisible, setIsFormVisible] = useState(null); // null means no f
         try {
             setError(''); // Clear any previous errors
 
-            const sessionResponse = await axios.get('http://localhost:8080/admin/session', {
+            const sessionResponse = await axios.get(`${ADMIN_URL}/session`, {
                 params: { 
                     academicYear: newEvent.academicYear, 
                     phase: newEvent.academicPhase 
@@ -69,7 +71,7 @@ const     [isFormVisible, setIsFormVisible] = useState(null); // null means no f
             };
 
             // Create new event via API
-            const response = await axios.post('http://localhost:8080/admin/events', newEventData);
+            const response = await axios.post(`${ADMIN_URL}/events`, newEventData);
             // const { eventName, sessionId, startDate, endDate } = req.body;
            
             setNewEvent({
@@ -96,7 +98,7 @@ const     [isFormVisible, setIsFormVisible] = useState(null); // null means no f
             };
 
             // Create new session via API
-            const response = await axios.post('http://localhost:8080/admin/sessions', newSessionData);
+            const response = await axios.post(`${ADMIN_URL}/sessions`, newSessionData);
             // const { academicYear, phase } = req.body;
            
             setNewSession({
