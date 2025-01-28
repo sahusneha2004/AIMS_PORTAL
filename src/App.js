@@ -4,9 +4,9 @@ import { GoogleOAuthProvider } from "@react-oauth/google"; // Import the OAuth p
 import Login from "./pages/login";
 import LoginOptions from "./pages/loginOptions";
 import AdminLogin from "./pages/admin/admin";
-import CoursesOfferedForEnrollment from "./pages/admin/coursesOfferedForEnrollment";
+import Courses from "./pages/admin/courses";
 import Departments from "./pages/admin/departments";
-import CoursesOfferedForOffering from "./pages/admin/coursesOfferedForOffering";
+import Offerings from "./pages/admin/offerings";
 import AcademicProfiles from "./pages/admin/academicProfiles";
 import { AuthProvider} from "./AuthContext";
 import ProtectedRoute from "./ProtectedRoute";
@@ -43,18 +43,18 @@ function App() {
             />
           
             <Route
-              path="admin/courses-offered-for-enrollment"
+              path="admin/courses"
               element={
                 <ProtectedRoute allowedRoles={["admin"]}>
-                  <CoursesOfferedForEnrollment />
+                  <Courses/>
                 </ProtectedRoute>
               }
             />
             <Route
-              path="admin/courses-offered-for-offering"
+              path="admin/offerings"
               element={
                 <ProtectedRoute allowedRoles={["admin"]}>
-                  <CoursesOfferedForOffering />
+                  <Offerings/>
                 </ProtectedRoute>
               }
             />

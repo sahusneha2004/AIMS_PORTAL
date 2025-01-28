@@ -8,27 +8,20 @@ const AuthContext = createContext();
 export const useAuth = () => useContext(AuthContext);
 
 const AuthProviderComponent = ({ children }) => {
-  const [token, setToken] = useState(localStorage.getItem('token'));
-  const [role, setRole] = useState(localStorage.getItem('role')); 
-  const [email, setEmail] = useState(localStorage.getItem('email'));
+  const [token, setToken] = useState(localStorage.getItem('token') || null);
+  const [role, setRole] = useState(localStorage.getItem('role') || null);
+  const [email, setEmail] = useState(localStorage.getItem('email') || null);
   const navigate = useNavigate();
-
-  useEffect(() => {
-    if (!token || !role || !email) {
-      return; // Skip updates if any of these values are missing
-    }
-    // No need to call setRole and setEmail here since they are already set
-  }, [token, role, email]);
 
   const login = (token, role, email) => {
     localStorage.setItem('token', token);
-    localStorage.setItem('role', role); // Store role in localStorage
-    localStorage.setItem('email',email);
+    localStorage.setItem('role', role);
+    localStorage.setItem('email', email);
 
     setToken(token);
     setRole(role);
     setEmail(email);
-
+    console.log("done");
   };
 
   const logout = () => {
@@ -42,7 +35,7 @@ const AuthProviderComponent = ({ children }) => {
   };
 
   return (
-    <AuthContext.Provider value={{token, role,email, login, logout }}>
+    <AuthContext.Provider value={{ token, role, email, login, logout }}>
       {children}
     </AuthContext.Provider>
   );
@@ -51,4 +44,5 @@ const AuthProviderComponent = ({ children }) => {
 export const AuthProvider = ({ children }) => {
   return <AuthProviderComponent>{children}</AuthProviderComponent>;
 };
+
 export default AuthProvider;

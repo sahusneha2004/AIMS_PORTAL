@@ -1,8 +1,11 @@
 import React, { useEffect, useState } from 'react';
 import Landing from './Landing'
-
+import { useAuth } from '../../AuthContext';
 function AboutPage(){
-
+    const {email, role, token} = useAuth();
+    console.log("help");
+    console.log(role, email);
+    console.log("help");
     return (
         <div>
         <Landing/>

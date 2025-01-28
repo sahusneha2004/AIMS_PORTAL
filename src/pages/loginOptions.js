@@ -1,12 +1,51 @@
 import React from 'react';
+import { jwtDecode } from 'jwt-decode';
+import axios from 'axios';
 import { GoogleLogin } from '@react-oauth/google'; // Google auth package
 import { useNavigate } from 'react-router-dom'; // For navigation
-
+import { useAuth } from '../AuthContext';
+const ADMIN_URL = process.env.REACT_APP_ADMIN_URL;
 function LoginOptions() {
   const navigate = useNavigate();
-
+  const { logout } = useAuth();
   const handleAimsLogin = () => {
-    navigate('/login'); // Redirects to /login URL
+    
+    navigate('/'); // Redirects to /login URL
+  };
+  const handleLoginSuccess = async (credentialResponse) => {
+    
+
+    // Decode the token
+    const decodedToken = jwtDecode(credentialResponse.credential);
+    const userEmail = decodedToken.email; // Extract email from the token
+
+    try {
+      // Call the backend API to check if the user can log in
+      const response = await axios.post(`${ADMIN_URL}/check-user`, {
+        email: userEmail,
+      });
+
+      const { canLogin, role } = response.data;
+
+      if (canLogin) {
+        if (role === "admin") {
+          navigate("/admin");
+        } else if (role === "student") {
+          navigate("/student-dashboard");
+        } else if (role === "faculty") {
+          navigate("/home");
+        } else {
+          navigate("/default-dashboard");
+        } // Navigate to the homepage or any other route
+      } else {
+        logout();
+        console.log('Access denied for user:', userEmail);
+        alert('You are not authorized to access this application.');
+      }
+    } catch (error) {
+      console.error('Error checking user:', error);
+      alert('Something went wrong. Please try again later.');
+    }
   };
 
   return (
@@ -24,15 +63,13 @@ function LoginOptions() {
             <li>We strongly suggest that you open this website in an independent window.</li>
           </ul>
           <GoogleLogin
-              onSuccess={(credentialResponse) => {
-                console.log('Login successful', credentialResponse);
-                navigate('/');     }}
+              onSuccess={handleLoginSuccess}
               onError={() => {
                 console.log('Login failed');
+                alert('Login failed. Please try again.');
               }}
               useOneTap
-          />
-
+            />
         </div>
 
         {/* AIMS Credentials Login Option */}
@@ -45,7 +82,7 @@ function LoginOptions() {
             <li>Reset your AIMS password (not the LDAP one) when using it for the first time.</li>
             <li>Your login ID is your entry number (e.g., 2020MEB1234).</li>
           </ul>
-          <button className="aims-login">Login with AIMS</button>
+          <button className="aims-login" onClick={handleAimsLogin}>Login with AIMS</button>
         </div>
       </div>
     </div>
