@@ -9,7 +9,7 @@ function LoginOptions() {
   const navigate = useNavigate();
   const { logout } = useAuth();
   const handleAimsLogin = () => {
-    
+
     navigate('/'); // Redirects to /login URL
   };
   const handleLoginSuccess = async (credentialResponse) => {
@@ -31,7 +31,7 @@ function LoginOptions() {
         if (role === "admin") {
           navigate("/admin");
         } else if (role === "student") {
-          navigate("/student-dashboard");
+          navigate("/student/enroll");
         } else if (role === "faculty") {
           navigate("/home");
         } else {

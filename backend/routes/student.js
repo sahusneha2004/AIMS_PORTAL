@@ -88,7 +88,7 @@ router.get('/eligible-courses', async (req, res) => {
   });
 router.post('/create-enrollment', async (req, res) => {
     const { email, offeringId } = req.body;
-
+    
     try {
         // Step 1: Find user by email
         const User = await user.findOne({ email });
@@ -113,8 +113,10 @@ router.post('/create-enrollment', async (req, res) => {
         }
 
         // Step 4: Create enrollment
+        const o = await Offering.findOne({ _id : offeringId})
         const newEnrollment = new Enrollment({
             studentId: Student._id,
+            facultyId: o.facultyId,
             offeringId: offeringId, // Proper instantiation of ObjectId
             enrollmentDate: new Date(),
             status: 'pendingInstructorApproval',
