@@ -1,297 +1,79 @@
-/* Navbar Container */
-/* Navbar Container */
-.navbar {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  gap: 5px;
-  background-color: #333;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding: 10px;
-  z-index: 1000;
-  height: 30px;
-}
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
 
-/* Navbar left items */
-.navbar-left {
-  display: flex;
-  justify-content: flex-start;
-}
-
-.navbar-left h4 {
-  color: white;
-  font-size: 16px;
-  margin: 0 15px;
-  cursor: pointer;
-}
-
-.navbar-left h4:hover {
-  text-decoration: underline;
-}
-
-/* Dropdown Container */
-.dropdown {
+.menu-container {
+  font-family: Arial, sans-serif;
   position: relative;
-  cursor: pointer;
-
+  display: inline-block;
 }
 
-/* Dropdown Menu */
-.dropdown-menu {
+.menu {
+  position: relative;
+}
+
+.menu-button {
+  background-color: #333;
+  color: white;
+  padding: 5px;
+  border: none;
+  cursor: pointer;
+  font-size: 16px;
+}
+
+.menu-button:hover {
+  background-color: #444;
+}
+
+.dropdown {
   position: absolute;
   top: 100%;
   left: 0;
-  background-color: #f1f1f1;
-  min-width: 200px;
-  width: auto; 
-  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
-  z-index: 1000000;
-  display: block;     
-  border-radius: 5px;
-  padding: 0;
-
-}
-
-.dropdown-menu div {
-  padding: 10px;
-  color: #000000;
-  cursor: pointer;
-}
-
-.dropdown-menu :hover {
-  background-color: #ddd;
-  border-radius: 5px;
-}
-
-/* Logout Button */
-.logout-button {
-  background: none;
-  border: none;
-  cursor: pointer;
-  display: flex;
-  align-items: center;
-   margin-right: 25px;
-  color: white;
-  font-size: 16px;
-}
-
-
-.logout-button svg {
-  margin-right: 15px;
-}
-
-.login-container {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  height: 100vh;
-  background-color: #16163d;
-  flex-direction: column;
-}
-
-/* Login div styling */
-.login-div {
-  background-color: white;
-  padding: 20px;
-  box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
-  width: 400px;
-  border-radius: 10px;
-  text-align: center;
-}
-
-/* Input fields */
-.login-div input {
-  width: 90%;
-  padding: 10px;
-  margin: 10px 0;
-  border-radius: 5px;
+  background-color: rgb(246, 237, 237);
   border: 1px solid #ccc;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  z-index: 1000;
+  width: 200px;
 }
 
-.login-buttons button,
-.aims-login {
-  padding: 10px;
-  margin: 10px 1%;
-  border: none;
-  background-color: #4ede79;
-  color: white;
-  cursor: pointer;
-  border-radius: 5px;
-  font-weight: 600;
-}
-
-.login-buttons button:hover,
-.aims-login:hover {
-  background-color: #38a358;;
-}
-
-/* Terms and footer text */
-.terms {
-  font-size: 12px;
-  color: #ff0000;
-  font-weight: 500;
-}
-
-.footer {
-  font-size: 25px;
-  color: #ffffff;
-  margin-top: 20px;
-  font-weight: bold;
-}
-.login-form{
-  display: flex;
-  flex-direction: column;
-  text-align: left;
-}
-/* General styling for the login options page */
-.login-options-container {
-  padding: 20px;
-  margin: 0 auto;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  
-  
-}
-.login-option{
-  border: 1px solid #c5c5c5;
-  border-radius: 5px;
-  margin: 10px;
-  padding: 20px;
-  min-width: 300px;
-  width: 50%;
-  background-color: #ffffffff;
-}
-
-.login-option h4 {
-  color: #333;
-}
-
-.login-option ul {
-  padding-left: 30px;
-}
-
-.login-option ul li {
-  margin: 5px 0;
-  font-size: 14px;
-  color: #555;
-}
-
-.options h2{
-  color: #202265;
-  text-align: center;
-}
-/* General Styles */
-body {
-  font-family: Arial, sans-serif;
-  background-color: #f4f4f9;
+.dropdown ul {
+  list-style: none;
+  padding: 0;
   margin: 0;
-  padding: 0;
 }
 
-Main Container */
-div {
-  margin: 20px;
-}
-
-/* Heading Styles */
-h1, h2 {
-  color: #333;
-  font-size: 24px;
-}
-
-/* Course Box Styles */
-.course-box {
-  background-color: #fff;
-  padding: 15px;
-  margin: 10px 0;
-  border-radius: 8px;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-}
-
-.course-box p {
-  margin: 5px 0;
-}
-
-.course-box p strong {
-  color: #444;
-}
-
-/* Form Styles */
-form {
-  background-color: #fff;
-  padding: 20px;
-  margin-top: 20px;
-  border-radius: 8px;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-  display: grid;
-  gap: 15px;
-  max-width: 600px;
- 
-}
-
-/* Form Input Styles */
-input, select {
-  width: 100%;
-  padding: 10px;
-  font-size: 14px;
-  border: 1px solid #ccc;
-  border-radius: 4px;
-  box-sizing: border-box;
-  margin: 5px;
-}
-
-input[type="number"] {
-  width: 50%;
-}
-
-select {
-  padding: 8px;
-}
-
-button {
-  background-color: #4CAF50;
-  color: white;
-  padding: 12px 20px;
-  font-size: 16px;
-  border: none;
-  border-radius: 4px;
+.dropdown li {
+  padding: 10px 20px;
   cursor: pointer;
 }
 
-button:hover {
-  background-color: #45a049;
+.dropdown li:hover {
+  background-color: #333;
 }
 
-/* Label Styles */
-label {
-  font-size: 14px;
+.dropdown .highlight {
+  color: red;
   font-weight: bold;
-  color: #555;
 }
-
-/* Course List Styles */
-.course-list {
+.flex-bar {
   display: flex;
-  flex-direction: column;
+  justify-content: flex-start; /* Space between items */
+  align-items: center; /* Center items vertically */
+  background-color: #333; /* Dark background */
+  padding: 10px; /* Add some padding */
+  color: white; /* White text */
+  font-family: Arial, sans-serif;
+  font-size: 16px;
+  height: 60px; /* Fixed height for the bar */
+  gap: 5px;
 }
 
-.course-list .course-item {
-  margin-bottom: 15px;
+.flex-item {
+  padding: 10px 20px; /* Add padding inside each item */
+  cursor: pointer; /* Change cursor to pointer on hover */
 }
 
-/* Select Dropdown Styling */
-select[multiple] {
-  height: 150px;
-  resize: vertical;
+.flex-item:hover {
+  background-color: #444; /* Change background on hover */
+  border-radius: 5px; /* Rounded edges on hover */
 }
-
-option {
-  padding: 5px;
-}
-
-
-/* Navbar left items */
