@@ -115,7 +115,7 @@ router.post('/create-enrollment', async (req, res) => {
         // Step 4: Create enrollment
         const newEnrollment = new Enrollment({
             studentId: Student._id,
-            offeringId: new mongoose.Types.ObjectId(offeringId), // Proper instantiation of ObjectId
+            offeringId: offeringId, // Proper instantiation of ObjectId
             enrollmentDate: new Date(),
             status: 'pendingInstructorApproval',
             departmentName: Student.department, // Assuming department is in Student model
