@@ -63,7 +63,7 @@ const DepartmentsPage = () => {
                 placeholder="Enter department name"
                 style={{ marginRight: "10px", padding: "5px" }}
                 />
-                <button onClick={addDepartment} style={{ padding: "5px 10px" }}>
+                <button className="bg-green-600 text-white font-bold p-4 rounded-lg" onClick={addDepartment} style={{ padding: "5px 10px" }}>
                 Add Department
                 </button>
             </div>

@@ -7,9 +7,10 @@ import {useAuth} from '../../../AuthContext'
 
 function Coursesoffered(){
 
-    const [formData, setFormData] = useState({academicyear: '',phase: '',});
+    const [formData, setFormData] = useState({academicyear: '',phase: ''});
     const [data, setData] = useState([]);
     const { token, role, email} = useAuth();
+    const [show , setShow] = useState(false);
 
     const handleChange = (event) => {
         const { name, value } = event.target;
@@ -21,6 +22,7 @@ function Coursesoffered(){
         try {
             const response = await axios.post(`http://localhost:5000/faculty/allofferedcourses/${email}`);
             setData(response.data);
+            setShow(true)
             setFormData({academicyear: '',phase: ''});
         } catch (error) {
             console.error('Error adding course:', error);
@@ -28,8 +30,6 @@ function Coursesoffered(){
         }
     };
 
-
-    
         return (
             <div>
                 <Landing />
@@ -37,17 +37,17 @@ function Coursesoffered(){
                 <form className='flex gap-6' onSubmit={handleSubmit}>
                 <div className='flex gap-2' >
                     <label>Academic-year:</label>
-                    <input className='pl-1 border w-80 '  onChange={handleChange} name='academicyear' placeholder='Write the academic year' ></input>
+                    <input className='pl-1 border w-80 ' value={formData.academicyear}  onChange={handleChange} name='academicyear' placeholder='Write the academic year' ></input>
                 </div>
                 <div  className='flex gap-2'>
                     <label>Phase:</label>
-                    <input className='pl-1 border '  onChange={handleChange} name='phase' placeholder='Write the phase' ></input>
+                    <input className='pl-1 border ' value={formData.phase} onChange={handleChange} name='phase' placeholder='Write the phase' ></input>
                 </div>
                 <button className='border-2 bg-zinc-400 text-sm w-[4rem] ' type="submit">Submit</button>
                 </form >
                 </div>
                 {
-                    data &&
+                    show &&
                     <table className=" table-auto border-collapse border border-gray-300 w-full text-left">
                     <thead>
                     <tr>

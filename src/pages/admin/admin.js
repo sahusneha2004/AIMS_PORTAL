@@ -19,9 +19,9 @@ const Home = () => {
 
     return (
         <div>
-            <nav className="navbar">
+            <div className="navbar">
                 <div className="navbar-left">
-                    <div className="dropdown">
+                    <div className="admin-dropdown">
                         <h4 onClick={() => handleMenuClick('academicInfo')}>
                             Academic Info ▾
                         </h4>
@@ -34,7 +34,7 @@ const Home = () => {
                         )}
                     </div>
 
-                    <div className="dropdown">
+                    <div className="admin-dropdown">
                         <h4 onClick={() => handleMenuClick('courses')}>
                             Courses ▾
                         </h4>
@@ -47,7 +47,7 @@ const Home = () => {
                     </div>
                 
                     
-                    <div className="dropdown">
+                    <div className="admin-dropdown">
                         <h4 onClick={()=>navigate('/admin/departments')}>
                             Departments
                         </h4>
@@ -58,7 +58,7 @@ const Home = () => {
                 <button className="logout-button" onClick={HandleLogout}>
                     <FaSignOutAlt size={20} />
                 </button>
-            </nav>
+            </div>
 
        
         </div>

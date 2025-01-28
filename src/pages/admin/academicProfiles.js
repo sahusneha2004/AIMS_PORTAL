@@ -144,7 +144,7 @@ function AcademicProfiles() {
   return (
     <div>
       <Header />
-      <h1 style={{ margin: '20px' }}>Academic Profiles</h1>
+    
 
       <div style={{ display: 'flex', margin: '20px' }}>
         <button
@@ -179,7 +179,7 @@ function AcademicProfiles() {
 
       {view === 'students' ? (
         <div style={{ padding: '20px' }}>
-          <button
+          <button className="bg-green-600 text-white font-bold p-4 rounded-lg"
             onClick={() => {
               setIsStudentForm(true);
               setShowForm(true);
@@ -187,8 +187,16 @@ function AcademicProfiles() {
           >
             Add a Student
           </button>
-          <h2>Students</h2>
-          <table border="1" style={{ width: '100%', textAlign: 'left', marginBottom: '20px' }}>
+          <h2 style={{margin: '5px'}} >Students</h2>
+          <table   style={{
+                width: '100%',
+                textAlign: 'left',
+                marginBottom: '20px',
+                borderCollapse: 'collapse',
+                backgroundColor: '#f9f9f9',
+                border: '1px solid #ddd',
+                fontFamily: 'Arial, sans-serif',
+                fontSize: '14px',}}>
             <thead>
               <tr>
                 <th>ID</th>
@@ -215,7 +223,7 @@ function AcademicProfiles() {
         </div>
       ) : (
         <div style={{ padding: '20px' }}>
-          <button
+          <button className="bg-green-600 text-white font-bold p-4 rounded-lg"
             onClick={() => {
               setIsStudentForm(false);
               setShowForm(true);
@@ -223,8 +231,16 @@ function AcademicProfiles() {
           >
             Add a Faculty
           </button>
-          <h2>Faculty</h2>
-          <table border="1" style={{ width: '100%', textAlign: 'left', marginBottom: '20px' }}>
+          <h2 style={{margin: '5px'}}>Faculty</h2>
+          <table border="1" style={{
+                  width: '100%',
+                  textAlign: 'left',
+                  marginBottom: '20px',
+                  borderCollapse: 'collapse',
+                  backgroundColor: '#f9f9f9',
+                  border: '1px solid #ddd',
+                  fontFamily: 'Arial, sans-serif',
+                  fontSize: '14px' }}>
             <thead>
               <tr>
                 <th>Name</th>
@@ -266,7 +282,7 @@ function AcademicProfiles() {
       >
       
           <h2>{isStudentForm ? 'Add Student' : 'Add Faculty'}</h2>
-          <form onSubmit={handleFormSubmit}>
+          <form className= "addForm" onSubmit={handleFormSubmit}>
             <input name="name" placeholder="Name" onChange={handleInputChange} required />
             <input name="email" placeholder="Email" type="email" onChange={handleInputChange} required />
            
