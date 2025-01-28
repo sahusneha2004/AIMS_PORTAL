@@ -9,16 +9,17 @@ const adminRoutes = require('./routes/admin.js')
 const app = express();
 app.use(cors());
 app.use(express.json());
+require('dotenv').config();
 
-
+// Access the PORT variable
+const PORT = process.env.PORT;
+const URI = process.env.URI;
 app.use('/faculty', facultyRoutes);
 app.use('/admin',adminRoutes)
-app.listen(5000)
+app.listen(PORT)
 
 
-const uri = "mongodb+srv://prathisthapandey10:123456prathistha@cluster0.nxb2y.mongodb.net/AIMS-Portal?retryWrites=true&w=majority";
-
-mongoose.connect(uri, { useNewUrlParser: true, useUnifiedTopology: true })
+mongoose.connect(URI, { useNewUrlParser: true, useUnifiedTopology: true })
    .then(() => console.log("Connected to MongoDB Atlas"))
    .catch((error) => console.error("MongoDB connection error:", error));
 

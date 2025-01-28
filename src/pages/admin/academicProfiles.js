@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import Header from './admin';
 import { useAuth } from "../../AuthContext";
 
+const ADMIN_URL = process.env.REACT_APP_ADMIN_URL;
 
 function AcademicProfiles() {
   const [users, setUsers] = useState([]);
@@ -21,7 +22,7 @@ function AcademicProfiles() {
 
   const fetchUsers = async () => {
     try {
-      const response = await fetch('http://localhost:8080/admin/users');
+      const response = await fetch(`${ADMIN_URL}/users`);
       const data = await response.json();
       setUsers(data);
     } catch (error) {
@@ -31,7 +32,7 @@ function AcademicProfiles() {
  
   const fetchDepartments = async () => {
     try {
-      const response = await fetch('http://localhost:8080/admin/departments');
+      const response = await fetch(`${ADMIN_URL}/departments`);
       const data = await response.json();
       const departmentMap = {};
       data.forEach((dept) => {
@@ -45,7 +46,7 @@ function AcademicProfiles() {
 
   const fetchFaculty = async () => {
     try {
-      const response = await fetch('http://localhost:8080/admin/faculty');
+      const response = await fetch(`${ADMIN_URL}/faculty`);
       const data = await response.json();
       setFaculty(data);
     } catch (error) {
@@ -55,7 +56,7 @@ function AcademicProfiles() {
 
   const fetchStudents = async () => {
     try {
-      const response = await fetch('http://localhost:8080/admin/students');
+      const response = await fetch(`${ADMIN_URL}/students`);
       const data = await response.json();
       setStudents(data);
     } catch (error) {
@@ -82,13 +83,12 @@ function AcademicProfiles() {
     e.preventDefault();
     try {
       // Create the user
-      const userResponse = await fetch('http://localhost:8080/admin/users', {
+      const userResponse = await fetch(`${ADMIN_URL}/users`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
           name: formData.name,
           email: formData.email,
-          password: formData.password,
           role: isStudentForm ? 'student' : 'faculty',
         }),
       });
@@ -100,7 +100,7 @@ function AcademicProfiles() {
 
       const user = await userResponse.json();
 
-      const endpoint = isStudentForm ? 'http://localhost:8080/admin/students' : 'http://localhost:8080/admin/faculty';
+      const endpoint = isStudentForm ? `${ADMIN_URL}/students` : `${ADMIN_URL}/faculty`;
 
       const body= isStudentForm ? {
         userId: user.user.id,
@@ -111,8 +111,7 @@ function AcademicProfiles() {
       }:
       {
         userId: user.user.id,
-        facultyId:formData.studentId, 
-        joiningYear:formData.enrollmentYear , 
+        joiningYear:formData.joiningYear , 
         designation:formData.designation , 
         department:formData.department
       }
@@ -228,7 +227,6 @@ function AcademicProfiles() {
           <table border="1" style={{ width: '100%', textAlign: 'left', marginBottom: '20px' }}>
             <thead>
               <tr>
-                <th>ID</th>
                 <th>Name</th>
                 <th>Email</th>
                 <th>Department</th>
@@ -239,7 +237,6 @@ function AcademicProfiles() {
             <tbody>
               {faculty.map((member) => (
                 <tr key={member._id}>
-                  <td>{member.facultyId}</td>
                   <td>{getUserName(member.userId)}</td>
                   <td>{getUserEmail(member.userId)}</td>
                   <td>{member.department || 'N/A'}</td>
@@ -272,7 +269,7 @@ function AcademicProfiles() {
           <form onSubmit={handleFormSubmit}>
             <input name="name" placeholder="Name" onChange={handleInputChange} required />
             <input name="email" placeholder="Email" type="email" onChange={handleInputChange} required />
-            <input name="password" placeholder="Password" type="password" onChange={handleInputChange} required />
+           
             {isStudentForm ? (
               <>
                 <input name="studentId" placeholder="Student ID" onChange={handleInputChange} required />
@@ -296,10 +293,15 @@ function AcademicProfiles() {
               </>
             ) : (
               <>
-                <input name="facultyId" placeholder="Faculty ID" onChange={handleInputChange} required />
-                <input name="designation" placeholder="Designation" onChange={handleInputChange} required />
+             
+             <select name="designation" onChange={handleInputChange} required>
+                  <option value="">Designation</option>
+                  <option value="Associate Professor">Associate Professor</option>
+                  <option value="Professor">Professor</option>
+                </select>
+
                 <input name="joiningYear" placeholder="Joining Year" onChange={handleInputChange} required />
-                <select name="departmentId" onChange={handleInputChange} required>
+                <select name="department" onChange={handleInputChange} required>
                   <option value="">Select Department</option>
                   {Object.entries(departments).map(([id, name]) => (
                     <option key={id} value={name}>

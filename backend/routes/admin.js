@@ -12,9 +12,8 @@ const Faculty = require('../models/Faculty.js');
 const Event = require('../models/Event.js');
 const Department = require('../models/Department.js');
 const Course = require('../models/Course.js');
-const Admin = require('../models/Admin.js');
-const Offering = require('../models/Offering.js');
-const Enrollment = require('../models/Enrollment.js');
+require('dotenv').config();
+
 // const URI =' mongodb+srv://sahusneha031:aimsportal@cluster0a.uvrcl.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0a'
 
 const router = express.Router()
@@ -35,8 +34,8 @@ const transporter = nodemailer.createTransport({
   host: "smtp.gmail.com",
   service: "gmail",
   auth: {
-    user: "sahusneha031@gmail.com", // Ensure the email is correctly formatted
-    pass: "eitm jykj rmes ckfu", // Use your actual app-specific password here
+    user: process.env.USER, // Ensure the email is correctly formatted
+    pass: process.env.PASSWORD, // Use your actual app-specific password here
   },
   debug: true,
   port: 587, // Use 587 for TLS
@@ -121,14 +120,13 @@ router.post('/sessions', async (req, res) => {
 });
 router.post('/users', async (req, res) => {
   try {
-    const { name, email, password, role } = req.body;
+    const { name, email, role } = req.body;
 
     // Hash the password
-    const saltRounds = 10;
-    const hashedPassword = await bcrypt.hash(password, saltRounds);
+    
 
     // Create a new user with the hashed password
-    const newUser = new User({ name, email, password: hashedPassword, role });
+    const newUser = new User({ name, email,role });
 
     // Save to the database
     const savedUser = await newUser.save();
@@ -200,10 +198,11 @@ router.post('/students', upload.single('studentImage'), async (req, res) => {
   });
 
 router.post('/faculty', async (req, res) => {
+
     try {
-      const { userId, facultyId, department, designation, joiningYear, retiringYear } = req.body;
+      const { userId, department, designation, joiningYear} = req.body;
   
-      const newFaculty = new Faculty({ userId, facultyId, department, designation, joiningYear, retiringYear });
+      const newFaculty = new Faculty({ userId, department, designation, joiningYear});
       const savedFaculty = await newFaculty.save();
   
       res.status(201).json({ message: 'Faculty created successfully!', faculty: savedFaculty });
@@ -247,43 +246,6 @@ router.post('/faculty', async (req, res) => {
       res.status(500).json({ message: 'Server Error', error: error.message });
     }
   });
-  router.post('/categories', async (req, res) => {
-    try {
-      const { categoryName } = req.body;
-  
-      const newCategory = new Category({ categoryName });
-      const savedCategory = await newCategory.save();
-  
-      res.status(201).json({ message: 'Category created successfully!', category: savedCategory });
-    } catch (error) {
-      res.status(500).json({ message: 'Server Error', error: error.message });
-    }
-  });
-  router.post('/feedback', async (req, res) => {
-    try {
-        const { studentId, offeringId, feedback } = req.body;
-
-        // Validate the request body
-        if (!studentId || !offeringId || !feedback) {
-            return res.status(400).json({ message: 'Student ID, Offering ID, and Feedback are required.' });
-        }
-
-        // Create new feedback entry
-        const newFeedback = new Feedback({
-            studentId,
-            offeringId,
-            feedback
-        });
-
-        // Save the feedback to the database
-        await newFeedback.save();
-
-        res.status(201).json({ message: 'Feedback submitted successfully.', feedback: newFeedback });
-    } catch (error) {
-        console.error(error);
-        res.status(500).json({ message: 'Server Error' });
-    }
-});
 router.get('/session', async (req, res) => {
     try {
         const { academicYear, phase } = req.query;
