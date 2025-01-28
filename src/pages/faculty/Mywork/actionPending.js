@@ -157,7 +157,7 @@ function ActionPending(){
     
     <div>
     <Landing />
-    <div className='mt-[6rem] ml-[6rem]'>
+    <div className='mt-[4rem] ml-[6rem]'>
         <div className='flex '>
             <button onClick={handleCreate} className='pl-1 border border-gray-500 bg-gray-300' > New Courses Created </button>
             <button onClick={handleMain} className='pl-1 border border-gray-500 bg-gray-300' > OfferedCourses </button>

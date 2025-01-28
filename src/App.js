@@ -4,7 +4,6 @@ import { GoogleOAuthProvider } from "@react-oauth/google"; // Import the OAuth p
 import Login from "./pages/login";
 import LoginOptions from "./pages/loginOptions";
 import AdminLogin from "./pages/admin/admin";
-import AcademicEvents from "./pages/admin/academicEvents";
 import CoursesOfferedForEnrollment from "./pages/admin/coursesOfferedForEnrollment";
 import Departments from "./pages/admin/departments";
 import CoursesOfferedForOffering from "./pages/admin/coursesOfferedForOffering";
@@ -42,14 +41,7 @@ function App() {
                 </ProtectedRoute>
               }
             />
-            <Route
-              path="admin/academic-events"
-              element={
-                <ProtectedRoute allowedRoles={["admin", "faculty"]}>
-                  <AcademicEvents />
-                </ProtectedRoute>
-              }
-            />
+          
             <Route
               path="admin/courses-offered-for-enrollment"
               element={

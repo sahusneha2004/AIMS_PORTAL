@@ -71,7 +71,7 @@ function Create(){
         return (
             <div>
                 <Landing />
-                <div className='mt-[6rem] ml-[6rem]'>
+                <div className='mt-[4rem] ml-[6rem]'>
                 <div className='flex items-center justify-start w-[70rem] border-b h-[6rem]'>
                     <form className='flex gap-6 flex-wrap text-sm' onSubmit={handleSubmit}>
                         <div  className='flex gap-2'>

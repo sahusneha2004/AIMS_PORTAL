@@ -29,7 +29,7 @@ function Available(){
     return (
         <div>
             <Landing />
-            <div className='mt-[6rem] ml-[6rem]'>
+            <div className='mt-[4rem] ml-[6rem]'>
             <div className='border-b w-[72rem] h-[2rem]'>
                 <h1>Courses available for offerings</h1>
             </div>

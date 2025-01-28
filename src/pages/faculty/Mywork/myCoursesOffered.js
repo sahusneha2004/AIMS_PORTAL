@@ -34,7 +34,7 @@ function MyCoursesOffered(){
     return (
     <div>
         <Landing />
-        <div className='flex flex-col mt-[6rem] ml-[6rem] gap-2 '>
+        <div className='flex flex-col mt-[4rem] ml-[6rem] gap-2 '>
             <h1>Offered Courses Detail</h1>
                 <table className=" table-auto border-collapse border border-gray-300 w-full text-left">
                     <thead>

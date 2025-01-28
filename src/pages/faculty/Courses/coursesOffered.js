@@ -33,7 +33,7 @@ function Coursesoffered(){
         return (
             <div>
                 <Landing />
-                <div className='flex items-center justify-start w-[70rem] mt-[6rem] ml-[6rem] border-b h-[4rem] text-sm'>
+                <div className='flex items-center justify-start w-[70rem] mt-[4rem] ml-[6rem] border-b h-[4rem] text-sm'>
                 <form className='flex gap-6' onSubmit={handleSubmit}>
                 <div className='flex gap-2' >
                     <label>Academic-year:</label>
