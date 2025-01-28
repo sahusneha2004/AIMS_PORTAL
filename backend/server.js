@@ -5,7 +5,7 @@ const { MongoClient } = require('mongodb');
 
 const facultyRoutes = require('./routes/faculty');
 const adminRoutes = require('./routes/admin.js')
-
+const studentRoutes = require('./routes/student.js')
 const app = express();
 app.use(cors());
 app.use(express.json());
@@ -16,6 +16,7 @@ const PORT = process.env.PORT;
 const URI = process.env.URI;
 app.use('/faculty', facultyRoutes);
 app.use('/admin',adminRoutes)
+app.use('/student',studentRoutes)
 app.listen(PORT)
 
 

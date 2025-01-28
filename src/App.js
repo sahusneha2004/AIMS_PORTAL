@@ -24,6 +24,7 @@ import Mycoursesoffered from '../src/pages/faculty/Mywork/myCoursesOffered';
 import Mycreatedcourses from '../src/pages/faculty/Mywork/myCreatedCourses';
 
 import Enrolledstudents from '../src/pages/faculty/Mywork/enrolledStudents'
+import CoursesEligible from '../src/pages/student/courses'
 function App() {
   return (
     <GoogleOAuthProvider clientId="356670906449-op3cr5hkdf4j3ppil0l7bhsbjvanecfg.apps.googleusercontent.com">
@@ -87,6 +88,7 @@ function App() {
             <Route path="/mycoursesoffered" element={<Mycoursesoffered />} />
             <Route path="/mycreatedcourses" element={<Mycreatedcourses />} />
             <Route path='/enrolledstudents/:id' element={<Enrolledstudents />} />
+            <Route path='/eligiblecourses' element={<CoursesEligible/>} />
           </Routes>
         </AuthProvider>
       </Router>
