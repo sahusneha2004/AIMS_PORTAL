@@ -2,12 +2,15 @@ import React, { useEffect, useState } from 'react';
 import axios from 'axios'
 import Landing from '../Landing'
 
+import {useAuth} from '../../../AuthContext'
+
 function Offercourse(){
 
     const [formData, setFormData] = useState({academicyear: '',phase: '', coursecode : '' });
     const [batches, setBatches] = useState('')
     const [message, setMessage] = useState('');
-    
+    const { token, role, email} = useAuth();
+
     const handleChange = (event) => {
         const { name, value } = event.target;
         setFormData({ ...formData, [name]: value });
@@ -29,7 +32,7 @@ function Offercourse(){
         console.log(formData)
         e.preventDefault();
         try {
-        const response = await axios.post('http://localhost:5000/faculty/offercourse', updatedFormData);
+        const response = await axios.post(`http://localhost:5000/faculty/offercourse/${email}`, updatedFormData);
         setMessage('Course offered successfully!');
         setFormData({academicyear: '',phase: '',batch:[], coursecode : '' });
         setBatches('')

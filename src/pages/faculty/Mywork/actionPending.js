@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import axios from 'axios'
 import Landing from '../Landing'
 
+import {useAuth} from '../../../AuthContext'
 function ActionPending(){
     
     const [create , setCreate] = useState(true)
@@ -9,33 +10,34 @@ function ActionPending(){
     const [enrollment, setEnrollment] = useState(false)
     const [advisor, setAdvisor]  = useState(false);
     const [data, setData] = useState([]);
+    const { token, role, email} = useAuth();
     
     // set this to true if your logged in faculty is an advisor
-    const isadvisor = false;
-    //const [isadvisor, setIsadvisor] = useState(false);
+    //const isadvisor = false;
+    const [isadvisor, setIsadvisor] = useState(false);
     const [selectedRows, setSelectedRows] = useState([]);
     const [rows , setRows] = useState([]);
     const [show , setShow] = useState(false)
     const [s , setS] = useState(false)
     
-    //useEffect(() => {
-    //    const checkAdvisor = async () => {
-    //    try {
-    //        const response = await axios.get(`http://localhost:5000/faculty/facultyadvisor/${email}`);
-    //
-    //        if (response.ok) {
-    //            const result = await response.json();
-    //            setIsadvisor(result);
-    //        } else {
-    //            console.error('Failed to fetch role status');
-    //        }
-    //    } catch (error) {
-    //        console.error('Error fetching advisor:', error);
-    //    }
-    //    };
-    //
-    //    checkAdvisor();
-    //}, []);
+    useEffect(() => {
+        const checkAdvisor = async () => {
+        try {
+            const response = await axios.get(`http://localhost:5000/faculty/facultyadvisor/${email}`);
+    
+            if (response.ok) {
+                const result = await response.json();
+                setIsadvisor(result);
+            } else {
+                console.error('Failed to fetch role status');
+            }
+        } catch (error) {
+            console.error('Error fetching advisor:', error);
+        }
+        };
+    
+        checkAdvisor();
+    }, []);
 
     useEffect( () => {
         handleCreate();
@@ -47,7 +49,7 @@ function ActionPending(){
         setEnrollment(false)
         setAdvisor(false)
         try {
-            const response = await axios.get('http://localhost:5000/faculty/createdcourseneedapproval');
+            const response = await axios.get(`http://localhost:5000/faculty/createdcourseneedapproval/${email}`);
             setData(response.data);
         } catch (error) {
             console.error('Error fetching data for create:', error);
@@ -60,7 +62,7 @@ function ActionPending(){
         setMain(true)
         setCreate(false)
         try {
-            const response = await axios.get('http://localhost:5000/faculty/courseneedadminapproval');
+            const response = await axios.get(`http://localhost:5000/faculty/courseneedadminapproval/${email}`);
             console.log(response.data[0].eligibleBatches);
             setData(response.data);
         } catch (error) {
@@ -74,7 +76,7 @@ function ActionPending(){
         setCreate(false)
         setAdvisor(false)
         try {
-            const response = await axios.get('http://localhost:5000/faculty/studentneedapproval');
+            const response = await axios.get(`http://localhost:5000/faculty/studentneedapproval/${email}`);
             setData(response.data);
         } catch (error) {
             console.error('Error fetching data for enrollment:', error);
@@ -87,7 +89,7 @@ function ActionPending(){
         setCreate(false)
         setEnrollment(false)
         try {
-            const response = await axios.get('http://localhost:5000/faculty/studentneedadvisorapproval');
+            const response = await axios.get(`http://localhost:5000/faculty/studentneedadvisorapproval/${email}`);
             setData(response.data);
         } catch (error) {
             console.error('Error fetching data for enrollment:', error);
@@ -121,7 +123,7 @@ function ActionPending(){
     const handleAction = async (action) => {
         try {
             // Send selected row IDs and action to the backend
-            await axios.post('http://localhost:5000/faculty/changecoursestatus', {
+            await axios.post(`http://localhost:5000/faculty/changecoursestatus/${email}`, {
                 ids: selectedRows,
                 action: action,
             });
@@ -137,7 +139,7 @@ function ActionPending(){
     const handleActionadvisor = async (action) => {
         try {
             // Send selected row IDs and action to the backend
-            await axios.post('http://localhost:5000/faculty//changecoursestatusadvisor', {
+            await axios.post(`http://localhost:5000/faculty//changecoursestatusadvisor/${email}`, {
                 ids: rows,
                 action: action,
             });

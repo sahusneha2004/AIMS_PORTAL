@@ -2,11 +2,37 @@ import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import Landing from '../Landing'
 
+import {useAuth} from '../../../AuthContext'
+
+
 function Create(){
 
     const [formData, setFormData] = useState({coursecode : '', coursename : '', department: '' , ltpsc:'' });
     const [message, setMessage] = useState('');
     const [preq , setPreq] = useState('')
+    const { token, role, email} = useAuth();
+    const [departments, setDepartments] = useState([]);
+
+    const fetchDepartments = async () => {
+        try {
+            const response = await axios.get('http://localhost:5000/admin/departments');
+            const data = response.data;
+            
+            const departmentMap = [];
+            data.forEach((dept) => {
+                departmentMap.push(dept.departmentName);
+            });
+            
+            setDepartments(departmentMap); // Update state with the department names
+        } catch (error) {
+            console.error('Error fetching departments:', error);
+        }
+    };
+    
+
+    useEffect(() => {
+        fetchDepartments();
+    }, []);
 
     const handleChange = (event) => {
         const { name, value } = event.target;
@@ -24,7 +50,7 @@ function Create(){
         const updatedFormData = { ...formData, prerequisites :  wordsArray  };
         e.preventDefault();
         try {
-        const response = await axios.post('http://localhost:5000/faculty/createcourse', updatedFormData);
+        const response = await axios.post(`http://localhost:5000/faculty/createcourse/${email}`, updatedFormData);
         setMessage('Course added successfully!');
         setFormData({coursecode : '', coursename : '', department: '' , ltpsc:'' , prerequisites : []});
         setPreq('')
@@ -58,16 +84,14 @@ function Create(){
                         </div>
                         <div  className='flex gap-2'>
                             <label for="dropdown">Department:</label>
-                                <select className='border' id="dropdown" name='department' value={formData.department} onChange={handleChange} >
-                                <option value="">--------Select Department-------</option>
-                                <option value="Department of Computer Science">Department of Computer Science</option>
-                                <option value="Department of Mathematics">Department of Mathematics</option>
-                                <option value="Department of Humanities">Department of Humanities</option>
-                                <option value="Department of Electrical Science">Department of Electrical Science</option>
-                                <option value="Department of Chemical Science">Department of Chemical Science</option>
-                                <option value="Department of Mechanical Science">Department of Mechanical Science</option>
-                                <option value="Department of Civil Engineering">Department of Civil Engineering</option>
-                            </select>
+                            <select className='border' id="dropdown" name="department" value={formData.department} onChange={handleChange}>
+                            <option value="">Select Department</option>
+                            {departments.map( (d) => (
+                                <option  value={d}>
+                                {d}
+                                </option>
+                            ))}
+                            </select>
                         </div>
                         <div  className='flex gap-2'>
                             <label>L-T-P-S-C: </label>

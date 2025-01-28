@@ -2,15 +2,19 @@ import React, { useEffect, useState } from 'react';
 import axios from 'axios'
 import Landing from '../Landing'
 
+import {useAuth} from '../../../AuthContext'
+
+
 function Available(){
 
     const [courses, setCourses] = useState([]);
     const [loading, setLoading] = useState(true);
+    const { token, role, email} = useAuth();
 
     useEffect(() => {
         const fetchData = async () => {
         try {
-            const response = await axios.get('http://localhost:5000/faculty/availablecourse');
+            const response = await axios.get(`http://localhost:5000/faculty/availablecourse/${email}`);
             setCourses(response.data);
             setLoading(false);
         } catch (error) {

@@ -3,12 +3,16 @@ import { BrowserRouter as Router, Route, Routes, Link } from 'react-router-dom';
 import axios from 'axios'
 import Landing from '../Landing'
 import { useNavigate } from 'react-router-dom';
+
+import {useAuth} from '../../../AuthContext'
+
 function MyCoursesOffered(){
     
     const navigate = useNavigate();
     const [main, setMain] = useState(false);
     const [enrollment, setEnrollment] = useState(false);
     const [data, setData] = useState([]);
+    const { token, role, email} = useAuth();
     
     const handleButtonClick = (e) => {
         const id = e.target.value; // Example ID
@@ -17,7 +21,7 @@ function MyCoursesOffered(){
 
     const fetchData = async () => {
         try {
-            const response = await axios.get('http://localhost:5000/faculty/offeredcourses');
+            const response = await axios.get(`http://localhost:5000/faculty/offeredcourses/${email}`);
             setData(response.data);
         } catch (err) {
         }

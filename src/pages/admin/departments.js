@@ -5,8 +5,8 @@ import { useAuth } from '../../AuthContext';
 const DepartmentsPage = () => {
   const [departments, setDepartments] = useState([]);
   const [newDepartmentName, setNewDepartmentName] = useState("");
-  const { token, role,email} = useAuth();
-    console.log(email)
+  const { token, role, email} = useAuth();
+    // console.log(email)
   // Fetch all departments
   const fetchDepartments = async () => {
     try {

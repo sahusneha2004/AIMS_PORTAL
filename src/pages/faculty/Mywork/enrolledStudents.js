@@ -3,12 +3,15 @@ import { BrowserRouter as Router, Route, Routes, Link } from 'react-router-dom';
 import axios from 'axios'
 import Landing from '../Landing'
 
+import {useAuth} from '../../../AuthContext'
+
 import { useParams } from 'react-router-dom';
 
 function Enrolledstudents(){
     
     const { id } = useParams();
     const [data, setData] = useState([]);
+    const { token, role, email} = useAuth();
 
     const fetchData = async () => {
         try {

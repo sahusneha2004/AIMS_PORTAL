@@ -45,7 +45,6 @@ function Login() {
         const data = await response.json();
         console.log(data.email)
         if(data.token){ // Store the token in context and localStorage
-         
           login(data.token,data.role, data.email);
           const role = data.role;
           alert("Login successful!");
@@ -54,7 +53,7 @@ function Login() {
           } else if (role === "student") {
             navigate("/student-dashboard");
           } else if (role === "faculty") {
-            navigate("/teacher-dashboard");
+            navigate("/home");
           } else {
             navigate("/default-dashboard");
           }

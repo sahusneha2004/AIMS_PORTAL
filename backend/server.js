@@ -15,7 +15,6 @@ app.use('/faculty', facultyRoutes);
 app.use('/admin',adminRoutes)
 app.listen(5000)
 
-// mongoose.connect("mongodb://127.0.0.1:27017/AIMS-Portal")
 
 const uri = "mongodb+srv://prathisthapandey10:123456prathistha@cluster0.nxb2y.mongodb.net/AIMS-Portal?retryWrites=true&w=majority";
 

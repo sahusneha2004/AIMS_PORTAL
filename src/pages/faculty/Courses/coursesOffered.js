@@ -1,21 +1,34 @@
 import React, { useEffect, useState } from 'react';
 import Landing from '../Landing'
 
+import axios from 'axios'
+
+import {useAuth} from '../../../AuthContext'
+
 function Coursesoffered(){
 
     const [formData, setFormData] = useState({academicyear: '',phase: '',});
-        const [message, setMessage] = useState('');
+    const [data, setData] = useState([]);
+    const { token, role, email} = useAuth();
+
+    const handleChange = (event) => {
+        const { name, value } = event.target;
+        setFormData({ ...formData, [name]: value });
+    };
     
-        const handleChange = (event) => {
-            const { name, value } = event.target;
-            setFormData({ ...formData, [name]: value });
-        };
-    
-        const handleSubmit = (e) => {
-            e.preventDefault();
-            // Example: Sending data to a backend API (use fetch or axios)
-            setMessage('Form submitted successfully!');
-        };
+    const handleSubmit = async (e) => {
+        e.preventDefault();
+        try {
+            const response = await axios.post(`http://localhost:5000/faculty/allofferedcourses/${email}`);
+            setData(response.data);
+            setFormData({academicyear: '',phase: ''});
+        } catch (error) {
+            console.error('Error adding course:', error);
+            setFormData({academicyear: '',phase: ''});
+        }
+    };
+
+
     
         return (
             <div>
@@ -32,7 +45,35 @@ function Coursesoffered(){
                 </div>
                 <button className='border-2 bg-zinc-400 text-sm w-[4rem] ' type="submit">Submit</button>
                 </form >
-            </div>
+                </div>
+                {
+                    data &&
+                    <table className=" table-auto border-collapse border border-gray-300 w-full text-left">
+                    <thead>
+                    <tr>
+                        <th className='font-light'>Academic Session</th>
+                        <th className='font-light'>Course Code</th>
+                        <th className='font-light'>Faculty Offering</th>
+                        <th className='font-light'>Eligible Batches</th>
+                        <th className='font-light'>MaxSeats</th>
+                        <th className='font-light'>Status</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                        {data.map((d,index) => (
+                            <tr className={index % 2 === 0 ? 'bg-gray-200' : 'bg-white '} >
+                                <td>{d.sessionId.academicYear} {d.sessionId.phase}</td>
+                                <td>{d.courseCode}</td>
+                                <td>{d.facultyId.userId.name}</td>
+                                <td> {d.eligibleBatches &&  d.eligibleBatches.map( (e)=> (
+                                    <h1>{e}</h1>))} </td>
+                                <td>{d.maxSeats}</td>
+                                <td className='font-semibold'>Offered</td>
+                            </tr>
+                        ))}
+                    </tbody>
+                </table>
+                }
             </div>
             
         );

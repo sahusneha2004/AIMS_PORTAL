@@ -4,7 +4,7 @@ const jwt = require('jsonwebtoken');
 const nodemailer = require("nodemailer");
 const otpGenerator = require("otp-generator");
 const mongoose = require('mongoose');
-const bcrypt = require('bcrypt');
+const bcrypt = require('bcryptjs');
 const User = require('../models/User.js');
 const Session =require('../models/Session.js');
 const Student = require('../models/Student.js');
@@ -19,7 +19,7 @@ const Enrollment = require('../models/Enrollment.js');
 
 const router = express.Router()
 
-let otpStorage = {}; 
+let otpStorage = {};
 const bodyParser = require('body-parser');
 const multer = require('multer');
 
