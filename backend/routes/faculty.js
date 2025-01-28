@@ -16,8 +16,8 @@ const department = require('../models/Department')
 // create a course by faculty
 router.post('/createcourse/:email', async (req, res) => {
 
-    const uid = await user.findOne({email : req.params.email})
-    const fid = await faculty.findOne({ userId : uid});
+    const u = await user.findOne({email : req.params.email})
+    const f = await faculty.findOne({ userId : u._id});
     const savedCourse = await course.create({
         courseCode : req.body.coursecode,
         courseName : req.body.coursename,
@@ -25,7 +25,7 @@ router.post('/createcourse/:email', async (req, res) => {
         ltpsc : req.body.ltpsc,
         prerequisites : req.body.prerequisites,
         status : 'notapproved',
-        facultyId : fid
+        facultyId : f._id
     });
     res.json({ message: 'Course added successfully'});
 });
@@ -36,11 +36,11 @@ router.post('/createcourse/:email', async (req, res) => {
 // offer the course by faculty
 router.post('/offercourse/:email' , async(req,res) =>{
 
-    const uid = await user.findOne({email : req.params.email})
-    const fid = await faculty.findOne({ userId : uid});
+    const u = await user.findOne({email : req.params.email})
+    const f = await faculty.findOne({ userId : u._id});
     const s = await session.findOne({academicYear : Number(req.body.academicyear) , phase : req.body.phase })
     const offering = await Offering.create({
-        facultyId : fid,
+        facultyId : f._id,
         courseCode : req.body.coursecode,
         sessionId : s._id,
         status : 'pendingAdminApproval',
@@ -66,10 +66,10 @@ router.get('/availablecourse/:email', async(req,res) => {
 // fetch the courses that have been offered by the faculty but needs approval from the admin
 router.get('/courseneedadminapproval/:email', async (req,res) =>{
 
-    const uid = await user.findOne({email : req.params.email})
-    const fid = await faculty.findOne({ userId : uid});
+    const u = await user.findOne({email : req.params.email})
+    const f = await faculty.findOne({ userId : u._id});
 
-    const offerings = await Offering.find({status : 'pendingAdminApproval' , facultyId : fid })
+    const offerings = await Offering.find({status : 'pendingAdminApproval' , facultyId : f._id })
     .populate('sessionId');
     res.status(200).json(offerings);
 })
@@ -80,11 +80,11 @@ router.get('/courseneedadminapproval/:email', async (req,res) =>{
 // fetch all the students that must be given acceptance or rejection
 router.get('/studentneedapproval/:email', async (req,res) =>{
 
-    const uid = await user.findOne({email : req.params.email})
-    const fid = await faculty.findOne({ userId : uid});
+    const u = await user.findOne({email : req.params.email})
+    const f = await faculty.findOne({ userId : u._id});
 
 
-    const enrollment = await Enrollment.find({ status: 'pendingInstructorApproval', facultyId : fid })
+    const enrollment = await Enrollment.find({ status: 'pendingInstructorApproval', facultyId : f._id })
     .populate('studentId')
     .populate({
         path: 'studentId',
@@ -104,11 +104,11 @@ router.get('/studentneedapproval/:email', async (req,res) =>{
 // fetch all the courses you created and needs approval from admin
 router.get('/createdcourseneedapproval/:email', async (req,res) =>{
 
-    const uid = await user.findOne({email : req.params.email})
-    const fid = await faculty.findOne({ userId : uid});
+    const u = await user.findOne({email : req.params.email})
+    const f = await faculty.findOne({ userId : u._id});
 
     
-    const courses = await course.find({status : 'notapproved' , facultyId : fid });
+    const courses = await course.find({status : 'notapproved' , facultyId : f._id });
     res.status(200).json(courses);
 })
 
@@ -118,10 +118,12 @@ router.get('/createdcourseneedapproval/:email', async (req,res) =>{
 // fetch the courses that have been approved by the admin
 router.get('/offeredcourses/:email' , async (req,res) =>{
 
-    const uid = await user.findOne({email : req.params.email})
-    const fid = await faculty.findOne({ userId : uid});
+    const u = await user.findOne({email : req.params.email})
+    const f = await faculty.findOne({ userId : u._id});
 
-    const offerings = await Offering.find({status : 'approved', facultyId : fid })
+    const d = await department.findOne( { departmentName : f.department } )
+
+    const offerings = await Offering.find({status : 'approved', facultyId : f._id })
     .populate('sessionId')
     res.status(200).json(offerings);
 })
@@ -132,10 +134,11 @@ router.get('/offeredcourses/:email' , async (req,res) =>{
 // fetch all the courses created by the faculty and has been approved
 router.get('/createdcourses/:email' , async (req,res) =>{
 
-    const uid = await user.findOne({email : req.params.email})
-    const fid = await faculty.findOne({ userId : uid});
-    const did = await department.findOne( { departmentName : fid.department } )
-    const courses = await course.find({status : 'approved', facultyId : fid });
+    const u = await user.findOne({email : req.params.email})
+    const f = await faculty.findOne({ userId : u._id});
+
+    const d = await department.findOne( { departmentName : f.department } )
+    const courses = await course.find({status : 'approved', facultyId : f._id });
     res.status(200).json(courses);
 })
 
@@ -184,12 +187,12 @@ router.get('/enrolledstudents/:id', async (req,res) =>{
 
 router.get('/studentneedadvisorapproval/:email' , async (req,res) => {
 
-    const uid = await user.findOne({email : req.params.email})
-    const fid = await faculty.findOne({ userId : uid});
+    const u = await user.findOne({email : req.params.email})
+    const f = await faculty.findOne({ userId : u._id});
 
-    const did = await department.findOne( { departmentName : fid.department } )
+    const d = await department.findOne( { departmentName : f.department } )
     
-    const enrollment = await Enrollment.find({ status: 'pendingAdvisorApproval', departmentName : did.departmentName })
+    const enrollment = await Enrollment.find({ status: 'pendingAdvisorApproval', departmentName : d.departmentName })
     .populate('studentId')
     .populate({
         path: 'studentId',
@@ -229,12 +232,12 @@ router.post('/changecoursestatusadvisor/:email', async (req, res) => {
 
 router.get('/facultyadvisor/:email' , async (req,res) => {
 
-    const uid = await user.findOne({email : req.params.email})
-    const fid = await faculty.findOne({ userId : uid});
+    const u = await user.findOne({email : req.params.email})
+    const f = await faculty.findOne({ userId : u._id});
 
-    const did = await department.findOne( { departmentName : fid.department } )
-
-    if( did.facultyAdvisor === fid )
+    const d = await department.findOne( { departmentName : f.department } )
+    
+    if(String(d.facultyAdvisor) === String(f._id))
     {
         res.status(200).json(true);
     }
@@ -246,7 +249,7 @@ router.get('/facultyadvisor/:email' , async (req,res) => {
 
 
 
-router.get('allofferedcourses/:email' , async (req,res) => {
+router.post('/allofferedcourses/:email' , async (req,res) => {
 
     const s = await session.findOne({academicYear : Number(req.body.academicyear) , phase : req.body.phase })
     const offerings = await Offering.find({ sessionId : s._id })

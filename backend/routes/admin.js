@@ -162,7 +162,7 @@ router.post('/students', upload.single('studentImage'), async (req, res) => {
       // Check if studentId already exists
       const existingStudent = await Student.findOne({ studentId });
       if (existingStudent) {
-        return res.status(400).json({ message: `Student ID '${studentId}' already exists!` });
+        return res.status(400).json({ message: `Student ID ${studentId} already exists! `});
       }
   
       // Create a new student
@@ -484,7 +484,3 @@ router.post('/check-user', async (req, res) => {
 });
 
 module.exports = router;
-
-
-module.exports=router;
-
