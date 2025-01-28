@@ -42,7 +42,7 @@ function App() {
             <Route
               path="/admin"
               element={
-                <ProtectedRoute allowedRoles={["admin", "faculty"]}>
+                <ProtectedRoute allowedRoles={["admin"]}>
                   <AdminLogin />
                 </ProtectedRoute>
               }
@@ -81,23 +81,134 @@ function App() {
                 </ProtectedRoute>
               }
             />
-            <Route path = "/landing" element ={<Landing/>}/>
-            <Route path="/home" element={<Home />} />
-            <Route path="/help" element={<Help />} />
-            <Route path="/coursesoffered" element={<Coursesoffered />} />
-            <Route path="/create" element={<Create />} />
-            <Route path="/offercourse" element={<Offercourse />} />
-            <Route path="/uploadgrade" element={<Uploadgrade />} />
-            <Route path="/available" element={<Available />} />
-            <Route path="/actionpending" element={<Actionpending />} />
-            <Route path="/mycoursesoffered" element={<Mycoursesoffered />} />
-            <Route path="/mycreatedcourses" element={<Mycreatedcourses />} />
-            <Route path='/enrolledstudents/:id' element={<Enrolledstudents />} />
+            <Route path="/landing" 
+                      element={
+                        <ProtectedRoute allowedRoles={["faculty"]}>
+                          <Landing />
+                        </ProtectedRoute>
+                      }
+                    />
 
-            <Route path='/student/enrollmentspending' element={<PendingEnrollments />} />
-            <Route path='/student/enrollmentsrunning' element={<RunningEnrollments />} />
-            <Route path='/student/home' element={< Navbar />} />
-            <Route path= '/student/enroll' element={<EligibleCourses />} />
+                    <Route path="/home" 
+                      element={
+                        <ProtectedRoute allowedRoles={["faculty"]}>
+                          <Home />
+                        </ProtectedRoute>
+                      }
+                    />
+
+                    <Route path="/help" 
+                      element={
+                        <ProtectedRoute allowedRoles={["faculty"]}>
+                          <Help />
+                        </ProtectedRoute>
+                      }
+                    />
+
+                    <Route path="/coursesoffered" 
+                      element={
+                        <ProtectedRoute allowedRoles={["faculty"]}>
+                          <Coursesoffered />
+                        </ProtectedRoute>
+                      }
+                    />
+
+                    <Route path="/create" 
+                      element={
+                        <ProtectedRoute allowedRoles={["faculty"]}>
+                          <Create />
+                        </ProtectedRoute>
+                      }
+                    />
+
+                    <Route path="/offercourse" 
+                      element={
+                        <ProtectedRoute allowedRoles={["faculty"]}>
+                          <Offercourse />
+                        </ProtectedRoute>
+                      }
+                    />
+
+                    <Route path="/uploadgrade" 
+                      element={
+                        <ProtectedRoute allowedRoles={["faculty"]}>
+                          <Uploadgrade />
+                        </ProtectedRoute>
+                      }
+                    />
+
+                    <Route path="/available" 
+                      element={
+                        <ProtectedRoute allowedRoles={["faculty"]}>
+                          <Available />
+                        </ProtectedRoute>
+                      }
+                    />
+
+                    <Route path="/actionpending" 
+                      element={
+                        <ProtectedRoute allowedRoles={["faculty"]}>
+                          <Actionpending />
+                        </ProtectedRoute>
+                      }
+                    />
+
+                    <Route path="/mycoursesoffered" 
+                      element={
+                        <ProtectedRoute allowedRoles={["faculty"]}>
+                          <Mycoursesoffered />
+                        </ProtectedRoute>
+                      }
+                    />
+
+                    <Route path="/mycreatedcourses" 
+                      element={
+                        <ProtectedRoute allowedRoles={["faculty"]}>
+                          <Mycreatedcourses />
+                        </ProtectedRoute>
+                      }
+                    />
+
+                    <Route path="/enrolledstudents/:id" 
+                      element={
+                        <ProtectedRoute allowedRoles={["faculty"]}>
+                          <Enrolledstudents />
+                        </ProtectedRoute>
+                      }
+                    />
+
+            
+                    <Route path='/student/enrollmentspending' 
+                      element={
+                        <ProtectedRoute allowedRoles={["student"]}>
+                          <PendingEnrollments />
+                        </ProtectedRoute>
+                      }
+                    />
+
+                    <Route path='/student/enrollmentsrunning' 
+                      element={
+                        <ProtectedRoute allowedRoles={["student"]}>
+                          <RunningEnrollments />
+                        </ProtectedRoute>
+                      }
+                    />
+
+                    <Route path='/student/home' 
+                      element={
+                        <ProtectedRoute allowedRoles={["student"]}>
+                          <Navbar />
+                        </ProtectedRoute>
+                      }
+                    />
+
+                    <Route path='/student/enroll' 
+                      element={
+                        <ProtectedRoute allowedRoles={["student"]}>
+                          <EligibleCourses />
+                        </ProtectedRoute>
+                      }
+                    />
           </Routes>
         </AuthProvider>
       </Router>

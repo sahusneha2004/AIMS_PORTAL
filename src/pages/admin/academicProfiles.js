@@ -146,7 +146,7 @@ function AcademicProfiles() {
       <Header />
     
 
-      <div style={{ display: 'flex', margin: '20px' }}>
+      <div style={{ display: 'flex', margin: '20px', marginTop:"50px" }}>
         <button
           style={{
             margin: '20px 10px',
