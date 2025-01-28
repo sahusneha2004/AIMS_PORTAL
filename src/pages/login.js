@@ -52,7 +52,7 @@ function Login() {
           if (role === "admin") {
             navigate("/admin");
           } else if (role === "student") {
-            navigate("/student/home");
+            navigate("/student/enroll");
           } else if (role === "faculty") {
             navigate("/home");
           } else {

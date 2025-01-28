@@ -9,8 +9,29 @@ const user = require('../models/User')
 const student = require('../models/Student')
 const faculty = require('../models/Faculty')
 const department = require('../models/Department')
+const nodemailer = require("nodemailer");
+require('dotenv').config();
 
 
+const transporter = nodemailer.createTransport({
+    host: "smtp.gmail.com",
+    service: "gmail",
+    auth: {
+    user: process.env.USER, // Ensure the email is correctly formatted
+    pass: process.env.PASSWORD, // Use your actual app-specific password here
+},
+    debug: true,
+    port: 587, // Use 587 for TLS
+    secure: false, // Set to false for TLS
+});
+
+transporter.verify((error, success) => {
+    if (error) {
+      console.error("SMTP Error:", error); // Log detailed SMTP error
+    } else {
+        console.log("SMTP Connection successful:", success);
+    }
+});
 
 
 // create a course by faculty
@@ -157,6 +178,39 @@ router.post('/changecoursestatus/:email', async (req, res) => {
             { $set: { status: action === 'Approve' ? 'pendingAdvisorApproval' : 'rejected' } }
         );
 
+        const updatedEnrollments = await Enrollment.find({ _id: { $in: ids } })
+            .populate('studentId') // Populate student details
+            .populate('offeringId') // Populate course/offering details if needed
+            .populate({
+                path: 'studentId',
+                populate: { path: 'userId' },
+            })
+
+        for (const enrollment of updatedEnrollments) {
+            const student = enrollment.studentId;
+            if (student && student.userId && student.userId.email) {
+                // Construct the email
+                const mailOptions = {
+                    from: process.env.USER, // Sender's email address
+                    to: student.userId.email, // Student's email address
+                    subject: `Your Enrollment Status Has Been Updated`,
+                    text: `Dear ${student.userId.name},\n\nYour enrollment status for the course ${
+                        enrollment.offeringId?.courseCode || 'N/A'
+                    } has been updated to "${action === 'Approve' ? 'PendingAdvisorApproval' : 'Rejected'}".\n\nBest regards,\nAdmin Team`,
+                };
+
+                // Send the email
+                try {
+                    await transporter.sendMail(mailOptions);
+                    console.log(`Email sent to ${student.userId.email}`);
+                } catch (err) {
+                    console.error(`Failed to send email to ${student.userId.email}:`, err);
+                }
+            } else {
+                console.warn(`Email not sent: Missing email for student ${student?._id}`);
+            }
+        }
+
         res.status(200).json({ message: `Status updated to ${action}` });
     } catch (error) {
         console.error('Error updating status:', error);
@@ -219,6 +273,39 @@ router.post('/changecoursestatusadvisor/:email', async (req, res) => {
             { _id: { $in: ids } },
             { $set: { status: action === 'Approve' ? 'running' : 'rejected' } }
         );
+
+        const updatedEnrollments = await Enrollment.find({ _id: { $in: ids } })
+            .populate('studentId') // Populate student details
+            .populate('offeringId') // Populate course/offering details if needed
+            .populate({
+                path: 'studentId',
+                populate: { path: 'userId' },
+            })
+
+        for (const enrollment of updatedEnrollments) {
+            const student = enrollment.studentId;
+            if (student && student.userId && student.userId.email) {
+                // Construct the email
+                const mailOptions = {
+                    from: process.env.USER, // Sender's email address
+                    to: student.userId.email, // Student's email address
+                    subject: `Your Enrollment Status Has Been Updated`,
+                    text: `Dear ${student.userId.name},\n\nYour enrollment status for the course ${
+                        enrollment.offeringId?.courseCode || 'N/A'
+                    } has been updated to "${action === 'Approve' ? 'Running' : 'Rejected'}".\n\nBest regards,\nAdmin Team`,
+                };
+
+                // Send the email
+                try {
+                    await transporter.sendMail(mailOptions);
+                    console.log(`Email sent to ${student.userId.email}`);
+                } catch (err) {
+                    console.error(`Failed to send email to ${student.userId.email}:`, err);
+                }
+            } else {
+                console.warn(`Email not sent: Missing email for student ${student?._id}`);
+            }
+        }
 
         res.status(200).json({ message: `Status updated to ${action}` });
     } catch (error) {
