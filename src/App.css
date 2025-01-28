@@ -1,82 +1,5 @@
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
-
-.menu-container {
-  font-family: Arial, sans-serif;
-  position: relative;
-  display: inline-block;
-}
-
-.menu {
-  position: relative;
-}
-
-.menu-button {
-  background-color: #333;
-  color: white;
-  padding: 5px;
-  border: none;
-  cursor: pointer;
-  font-size: 16px;
-}
-
-.menu-button:hover {
-  background-color: #444;
-}
-
-.dropdown {
-  position: absolute;
-  top: 100%;
-  left: 0;
-  background-color: rgb(246, 237, 237);
-  border: 1px solid #ccc;
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-  z-index: 1000;
-  width: 200px;
-}
-
-.dropdown ul {
-  list-style: none;
-  padding: 0;
-  margin: 0;
-}
-
-.dropdown li {
-  padding: 10px 20px;
-  cursor: pointer;
-}
-
-.dropdown li:hover {
-  background-color: #333;
-}
-
-.dropdown .highlight {
-  color: red;
-  font-weight: bold;
-}
-.flex-bar {
-  display: flex;
-  justify-content: flex-start; /* Space between items */
-  align-items: center; /* Center items vertically */
-  background-color: #333; /* Dark background */
-  padding: 10px; /* Add some padding */
-  color: white; /* White text */
-  font-family: Arial, sans-serif;
-  font-size: 16px;
-  height: 60px; /* Fixed height for the bar */
-  gap: 5px;
-}
-
-.flex-item {
-  padding: 10px 20px; /* Add padding inside each item */
-  cursor: pointer; /* Change cursor to pointer on hover */
-}
-
-.flex-item:hover {
-  background-color: #444; /* Change background on hover */
-  border-radius: 5px; /* Rounded edges on hover */
-}
+/* Navbar Container */
+/* Navbar Container */
 .navbar {
   position: fixed;
   top: 0;
@@ -108,6 +31,42 @@
 .navbar-left h4:hover {
   text-decoration: underline;
 }
+
+/* Dropdown Container */
+.dropdown {
+  position: relative;
+  cursor: pointer;
+
+}
+
+/* Dropdown Menu */
+.dropdown-menu {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  background-color: #f1f1f1;
+  min-width: 200px;
+  width: auto; 
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+  z-index: 1000000;
+  display: block;     
+  border-radius: 5px;
+  padding: 0;
+
+}
+
+.dropdown-menu div {
+  padding: 10px;
+  color: #000000;
+  cursor: pointer;
+}
+
+.dropdown-menu :hover {
+  background-color: #ddd;
+  border-radius: 5px;
+}
+
+/* Logout Button */
 .logout-button {
   background: none;
   border: none;
@@ -118,6 +77,7 @@
   color: white;
   font-size: 16px;
 }
+
 
 .logout-button svg {
   margin-right: 15px;
@@ -220,6 +180,30 @@
   color: #555;
 }
 
+.options h2{
+  color: #202265;
+  text-align: center;
+}
+/* General Styles */
+body {
+  font-family: Arial, sans-serif;
+  background-color: #f4f4f9;
+  margin: 0;
+  padding: 0;
+}
+
+Main Container */
+div {
+  margin: 20px;
+}
+
+/* Heading Styles */
+h1, h2 {
+  color: #333;
+  font-size: 24px;
+}
+
+/* Course Box Styles */
 .course-box {
   background-color: #fff;
   padding: 15px;
@@ -235,3 +219,79 @@
 .course-box p strong {
   color: #444;
 }
+
+/* Form Styles */
+form {
+  background-color: #fff;
+  padding: 20px;
+  margin-top: 20px;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  display: grid;
+  gap: 15px;
+  max-width: 600px;
+ 
+}
+
+/* Form Input Styles */
+input, select {
+  width: 100%;
+  padding: 10px;
+  font-size: 14px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  box-sizing: border-box;
+  margin: 5px;
+}
+
+input[type="number"] {
+  width: 50%;
+}
+
+select {
+  padding: 8px;
+}
+
+button {
+  background-color: #4CAF50;
+  color: white;
+  padding: 12px 20px;
+  font-size: 16px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+button:hover {
+  background-color: #45a049;
+}
+
+/* Label Styles */
+label {
+  font-size: 14px;
+  font-weight: bold;
+  color: #555;
+}
+
+/* Course List Styles */
+.course-list {
+  display: flex;
+  flex-direction: column;
+}
+
+.course-list .course-item {
+  margin-bottom: 15px;
+}
+
+/* Select Dropdown Styling */
+select[multiple] {
+  height: 150px;
+  resize: vertical;
+}
+
+option {
+  padding: 5px;
+}
+
+
+/* Navbar left items */

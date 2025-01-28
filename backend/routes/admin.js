@@ -120,14 +120,13 @@ router.post('/sessions', async (req, res) => {
 });
 router.post('/users', async (req, res) => {
   try {
-    const { name, email, password, role } = req.body;
+    const { name, email, role } = req.body;
 
     // Hash the password
-    const saltRounds = 10;
-    const hashedPassword = await bcrypt.hash(password, saltRounds);
+    
 
     // Create a new user with the hashed password
-    const newUser = new User({ name, email, password: hashedPassword, role });
+    const newUser = new User({ name, email,role });
 
     // Save to the database
     const savedUser = await newUser.save();
@@ -199,10 +198,11 @@ router.post('/students', upload.single('studentImage'), async (req, res) => {
   });
 
 router.post('/faculty', async (req, res) => {
+
     try {
-      const { userId, facultyId, department, designation, joiningYear, retiringYear } = req.body;
+      const { userId, department, designation, joiningYear} = req.body;
   
-      const newFaculty = new Faculty({ userId, facultyId, department, designation, joiningYear, retiringYear });
+      const newFaculty = new Faculty({ userId, department, designation, joiningYear});
       const savedFaculty = await newFaculty.save();
   
       res.status(201).json({ message: 'Faculty created successfully!', faculty: savedFaculty });

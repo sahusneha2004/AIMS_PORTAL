@@ -1,7 +1,8 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useAuth } from '../AuthContext';
-
+const ADMIN_URL = process.env.REACT_APP_ADMIN_URL;
+console.log(ADMIN_URL);
 
 function Login() {
   const navigate = useNavigate();
@@ -14,7 +15,7 @@ function Login() {
   // Handle sending the OTP
   const handleSendOtp = async () => {
     try {
-      const response = await fetch("http://localhost:8080/admin/send-otp", {
+      const response = await fetch(`${ADMIN_URL}/send-otp`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ email }), // Sending email instead of loginId
@@ -35,7 +36,7 @@ function Login() {
 
     const handleVerifyOtp = async () => {
     try {
-      const response = await fetch("http://localhost:8080/admin/verify-otp", {
+      const response = await fetch(`${ADMIN_URL}/verify-otp`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ email, otp }), // Sending email and otp for verification

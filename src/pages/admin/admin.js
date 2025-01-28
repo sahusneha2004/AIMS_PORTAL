@@ -27,7 +27,7 @@ const Home = () => {
                         </h4>
                         {activeMenu === 'academicInfo' && (
                             <div className="dropdown-menu">
-                                <div onClick={()=>navigate('/admin/academic-events')}>Academic Events</div>
+                           
                                 <div onClick={()=>navigate('/admin/academic-profiles')}>Academic Profiles</div>
                             </div>
                             

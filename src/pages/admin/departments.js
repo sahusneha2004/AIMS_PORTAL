@@ -2,9 +2,9 @@ import React, { useEffect, useState } from "react";
 import axios from "axios";
 import Header from "./admin";
 import { useAuth } from '../../AuthContext';
-require('dotenv').config();
 
-const ADMIN_URL = process.env.ADMIN_URL;
+
+const ADMIN_URL = process.env.REACT_APP_ADMIN_URL;
 const DepartmentsPage = () => {
   const [departments, setDepartments] = useState([]);
   const [newDepartmentName, setNewDepartmentName] = useState("");

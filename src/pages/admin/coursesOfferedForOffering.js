@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import Header from './admin';
+
+const ADMIN_URL = process.env.REACT_APP_ADMIN_URL;
 const CoursesAvailableForOffering = () => {
   const [courses, setCourses] = useState([]); // For storing available courses
   const [departments, setDepartments] = useState([]); // For storing available departments
@@ -15,12 +17,12 @@ const CoursesAvailableForOffering = () => {
 
   useEffect(() => {
     // Fetch all available courses
-    axios.get('http://localhost:8080/admin/courses')
+    axios.get(`${ADMIN_URL}/courses`)
       .then(response => setCourses(response.data))
       .catch(error => console.error('Error fetching courses:', error));
 
     // Fetch all available departments
-    axios.get('http://localhost:8080/admin/departments')
+    axios.get(`${ADMIN_URL}/departments`)
       .then(response => setDepartments(response.data))
       .catch(error => console.error('Error fetching departments:', error));
   }, []);
@@ -50,7 +52,7 @@ const CoursesAvailableForOffering = () => {
   const handleCreateCourse = async (e) => {
     e.preventDefault();
     try {
-      const response = await axios.post('http://localhost:8080/admin/courses', newCourse);
+      const response = await axios.post(`${ADMIN_URL}/courses`, newCourse);
       alert(response.data.message);
     } catch (error) {
       console.error('Error creating course:', error);
