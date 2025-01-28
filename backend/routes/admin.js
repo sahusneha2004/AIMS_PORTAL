@@ -76,7 +76,7 @@ router.post("/send-otp", async (req, res) => {
       from: "sahusneha031@gmail.com", // Your email
       to: email,
       subject: "Your OTP for Login",
-      text: Your OTP is: ${otp},
+      text: `Your OTP is: ${otp}`,
     };
 
     await transporter.sendMail(mailOptions); // Sending the email
@@ -162,7 +162,7 @@ router.post('/students', upload.single('studentImage'), async (req, res) => {
       // Check if studentId already exists
       const existingStudent = await Student.findOne({ studentId });
       if (existingStudent) {
-        return res.status(400).json({ message: Student ID '${studentId}' already exists! });
+        return res.status(400).json({ message: `Student ID ${studentId} already exists! `});
       }
   
       // Create a new student
