@@ -1,9 +1,17 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-
+import { FaSignOutAlt } from 'react-icons/fa';
+import { useAuth } from '../../AuthContext';
+import { useNavigate } from 'react-router-dom';
 
 
 const Navbar = () => {
+    const { logout } = useAuth();
+    const navigate = useNavigate();
+    function HandleLogout() {
+        logout(); // Perform logout
+        navigate('/'); // Redirect to login page
+    }
     return (
         <nav className="bg-gray-800 p-4 text-white">
             <div className="flex items-center">
@@ -26,8 +34,13 @@ const Navbar = () => {
                     >
                         Running Enrollments
                     </Link>
+                    
                 </div>
+                <button className="logout-button ml-14 " onClick={HandleLogout}>
+                                                        <FaSignOutAlt size={20} />
+                </button>
             </div>
+            
         </nav>
     );
 };

@@ -1,12 +1,21 @@
 import React, { useEffect, useState } from 'react';
 import { BrowserRouter as Router, Route, Routes, Link } from 'react-router-dom';
-
-
+import { FaSignOutAlt } from 'react-icons/fa';
+import { useAuth } from '../../AuthContext';
+import { useNavigate } from 'react-router-dom';
 import '../../App.css'
 
 
 function Landing(){
 
+     const { logout } = useAuth(); // Get logout function from AuthContext
+     const navigate = useNavigate();   
+          
+       
+    function HandleLogout() {
+        logout(); // Perform logout
+        navigate('/'); // Redirect to login page
+    }
     const [a, seta] = useState(false);
     const [b, setb] = useState(false);
 
@@ -72,6 +81,9 @@ function Landing(){
             <div onClick={setOff}  >
                 <h6 className="text-zinc-100 ml-4"> <Link to='/help' >  Help </Link> </h6>
             </div>
+            <button className="logout-button ml-14 " onClick={HandleLogout}>
+                                <FaSignOutAlt size={20} />
+            </button>
         </div>
         </div>
    
