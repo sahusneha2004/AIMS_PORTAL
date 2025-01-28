@@ -12,6 +12,8 @@ const Faculty = require('../models/Faculty.js');
 const Event = require('../models/Event.js');
 const Department = require('../models/Department.js');
 const Course = require('../models/Course.js');
+const Offering= require('../models/Offering')
+
 require('dotenv').config();
 
 // const URI =' mongodb+srv://sahusneha031:aimsportal@cluster0a.uvrcl.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0a'
@@ -74,7 +76,7 @@ router.post("/send-otp", async (req, res) => {
       from: "sahusneha031@gmail.com", // Your email
       to: email,
       subject: "Your OTP for Login",
-      text: `Your OTP is: ${otp}`,
+      text: Your OTP is: ${otp},
     };
 
     await transporter.sendMail(mailOptions); // Sending the email
@@ -160,7 +162,7 @@ router.post('/students', upload.single('studentImage'), async (req, res) => {
       // Check if studentId already exists
       const existingStudent = await Student.findOne({ studentId });
       if (existingStudent) {
-        return res.status(400).json({ message: `Student ID '${studentId}' already exists!` });
+        return res.status(400).json({ message: Student ID '${studentId}' already exists! });
       }
   
       // Create a new student
@@ -380,6 +382,105 @@ router.get('/students', async (req, res) => {
     res.status(500).json({ error: 'Internal server error' });
   }
 });
+// Route to approve a course
+router.put('/approve-courses/:courseId', async (req, res) => {
+  const { courseId } = req.params;
+  const { status } = req.body;
 
-module.exports=router;
+  try {
+    // Validate status
+    if (status !== 'approved') {
+      return res.status(400).json({ message: "Invalid status. Only 'approved' is allowed." });
+    }
 
+    // Find and update the course
+    const course = await Course.findByIdAndUpdate(
+      courseId,
+      { status },
+      { new: true } // Return the updated document
+    );
+
+    if (!course) {
+      return res.status(404).json({ message: 'Course not found.' });
+    }
+
+    res.status(200).json({ message: 'Course approved successfully.', course });
+  } catch (error) {
+    console.error('Error approving course:', error);
+    res.status(500).json({ message: 'Internal server error.' });
+  }
+});
+router.get('/offerings', async (req, res) => {
+  try {
+    const offerings = await Offering.find()
+    .populate('sessionId')
+    res.status(200).json(offerings);
+  } catch (error) {
+    console.error('Error fetching offerings:', error);
+    res.status(500).json({ message: 'Internal server error.' });
+  }
+});
+
+// Approve an offering
+router.put('/approve-offerings/:offeringId', async (req, res) => {
+  const { offeringId } = req.params;
+  const { status } = req.body;
+
+  try {
+    // Validate status
+    if (status !== 'approved') {
+      return res.status(400).json({ message: "Invalid status. Only 'approved' is allowed." });
+    }
+
+    // Find and update the offering
+    const offering = await Offering.findByIdAndUpdate(
+      offeringId,
+      { status },
+      { new: true } // Return the updated document
+    );
+
+    if (!offering) {
+      return res.status(404).json({ message: 'Offering not found.' });
+    }
+
+    res.status(200).json({ message: 'Offering approved successfully.', offering });
+  } catch (error) {
+    console.error('Error approving offering:', error);
+    res.status(500).json({ message: 'Internal server error.' });
+  }
+});
+
+
+// POST API to check email in the users collection
+router.post('/check-user', async (req, res) => {
+  try {
+    const { email } = req.body;
+
+    // Validate request
+    if (!email) {
+      return res.status(400).json({ error: 'Email is required' });
+    }
+
+    // Check if the email exists in the database
+    const user = await User.findOne({ email });
+
+    if (user) {
+      // User exists
+      return res.json({
+        canLogin: true,
+        role: user.role,
+      });
+    } else {
+      // User does not exist
+      return res.json({
+        canLogin: false,
+        role: null,
+      });
+    }
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: 'Internal Server Error' });
+  }
+});
+
+module.exports = router;

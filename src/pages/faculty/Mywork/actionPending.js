@@ -5,6 +5,7 @@ import Landing from '../Landing'
 import {useAuth} from '../../../AuthContext'
 function ActionPending(){
     
+    const [isadvisor, setIsadvisor] = useState(false);
     const [create , setCreate] = useState(true)
     const [main, setMain] = useState(false)
     const [enrollment, setEnrollment] = useState(false)
@@ -12,32 +13,32 @@ function ActionPending(){
     const [data, setData] = useState([]);
     const { token, role, email} = useAuth();
     
+    
     // set this to true if your logged in faculty is an advisor
     //const isadvisor = false;
-    const [isadvisor, setIsadvisor] = useState(false);
+    const [loading, setLoading] = useState(true);
     const [selectedRows, setSelectedRows] = useState([]);
     const [rows , setRows] = useState([]);
     const [show , setShow] = useState(false)
     const [s , setS] = useState(false)
     
-    useEffect(() => {
-        const checkAdvisor = async () => {
+    const checkAdvisor = async () => {
         try {
             const response = await axios.get(`http://localhost:5000/faculty/facultyadvisor/${email}`);
-    
-            if (response.ok) {
-                const result = await response.json();
-                setIsadvisor(result);
-            } else {
-                console.error('Failed to fetch role status');
-            }
-        } catch (error) {
-            console.error('Error fetching advisor:', error);
+            console.log('Advisor check response:', response.data);
+            setIsadvisor(response.data); // Update the state with true/false
+        } catch (err) {
+            console.error('Error fetching advisor:', err);
+        } finally {
+            setLoading(false); // Set loading to false after completion
         }
-        };
-    
-        checkAdvisor();
-    }, []);
+    };
+
+    useEffect(() => {
+        if (email) {
+            checkAdvisor(); // Call checkAdvisor when email is available
+        }
+    }, [email]);
 
     useEffect( () => {
         handleCreate();
@@ -63,7 +64,6 @@ function ActionPending(){
         setCreate(false)
         try {
             const response = await axios.get(`http://localhost:5000/faculty/courseneedadminapproval/${email}`);
-            console.log(response.data[0].eligibleBatches);
             setData(response.data);
         } catch (error) {
             console.error('Error fetching data for main:', error);
@@ -152,6 +152,10 @@ function ActionPending(){
         }
     };
     
+
+    if (loading) {
+        return <div>Loading...</div>; // Show a loading screen while waiting for `checkAdvisor`
+    }
     
     return (
     

@@ -20,7 +20,7 @@ function Coursesoffered(){
     const handleSubmit = async (e) => {
         e.preventDefault();
         try {
-            const response = await axios.post(`http://localhost:5000/faculty/allofferedcourses/${email}`);
+            const response = await axios.post(`http://localhost:5000/faculty/allofferedcourses/${email}`,formData);
             setData(response.data);
             setShow(true)
             setFormData({academicyear: '',phase: ''});
@@ -33,7 +33,7 @@ function Coursesoffered(){
         return (
             <div>
                 <Landing />
-                <div className='flex items-center justify-start w-[70rem] mt-[4rem] ml-[6rem] border-b h-[4rem] text-sm'>
+                <div className='flex items-center justify-start w-[70rem] mt-[4rem] ml-[6rem]  h-[4rem] text-sm'>
                 <form className='flex gap-6' onSubmit={handleSubmit}>
                 <div className='flex gap-2' >
                     <label>Academic-year:</label>
@@ -48,7 +48,7 @@ function Coursesoffered(){
                 </div>
                 {
                     show &&
-                    <table className=" table-auto border-collapse border border-gray-300 w-full text-left">
+                    <table className="ml-4 mt-4 table-auto border-collapse border border-gray-300 w-full text-left">
                     <thead>
                     <tr>
                         <th className='font-light'>Academic Session</th>
