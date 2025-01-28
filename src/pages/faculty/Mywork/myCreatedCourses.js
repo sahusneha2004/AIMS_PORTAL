@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios'
+import Landing from '../Landing'
 
 function MyCreatedCourses(){
 
@@ -17,7 +18,9 @@ function MyCreatedCourses(){
     }, []);
     
     return (
-        <div className='flex flex-col mt-[2rem] ml-[4rem] gap-2 '>
+    <div>
+        <Landing />
+        <div className='flex flex-col mt-[6rem] ml-[6rem] gap-2 '>
             <h1>Created Courses Detail</h1>
                 <table className="table-auto border-collapse border border-gray-300 w-full text-left">
                     <thead>
@@ -41,6 +44,7 @@ function MyCreatedCourses(){
                         ))}
                     </tbody>
                 </table>
+        </div>
         </div>
     )
 };

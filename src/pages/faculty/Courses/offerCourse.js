@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios'
+import Landing from '../Landing'
 
 function Offercourse(){
 
@@ -45,7 +46,9 @@ function Offercourse(){
     }
 
     return (
-        <div className='mt-[2rem] ml-[8rem] '>
+        <div>
+            <Landing />
+            <div className='mt-[6rem] ml-[6rem]'>
             <div className='flex items-center justify-start w-[70rem] border-b h-[6rem] text-sm'>
                 <form className='flex gap-4 flex-wrap' onSubmit={handleSubmit}>
                     <div className='flex gap-2' >
@@ -74,6 +77,7 @@ function Offercourse(){
                 <button onClick={setOff} className='border bg-green-400 w-10 rounded-lg' >Ok</button>
             </div>
             }
+        </div>
         </div>
     );
 };

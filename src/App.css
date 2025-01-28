@@ -77,3 +77,168 @@
   background-color: #444; /* Change background on hover */
   border-radius: 5px; /* Rounded edges on hover */
 }
+
+.navbar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  gap: 5px;
+  background-color: #333;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px;
+  z-index: 1000;
+  height: 30px;
+}
+
+/* Navbar left items */
+.navbar-left {
+  display: flex;
+  justify-content: flex-start;
+}
+
+.navbar-left h4 {
+  color: white;
+  font-size: 16px;
+  margin: 0 15px;
+  cursor: pointer;
+}
+
+.navbar-left h4:hover {
+  text-decoration: underline;
+}
+.logout-button {
+  background: none;
+  border: none;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+   margin-right: 25px;
+  color: white;
+  font-size: 16px;
+}
+
+.logout-button svg {
+  margin-right: 15px;
+}
+
+.login-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  background-color: #16163d;
+  flex-direction: column;
+}
+
+/* Login div styling */
+.login-div {
+  background-color: white;
+  padding: 20px;
+  box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+  width: 400px;
+  border-radius: 10px;
+  text-align: center;
+}
+
+/* Input fields */
+.login-div input {
+  width: 90%;
+  padding: 10px;
+  margin: 10px 0;
+  border-radius: 5px;
+  border: 1px solid #ccc;
+}
+
+.login-buttons button,
+.aims-login {
+  padding: 10px;
+  margin: 10px 1%;
+  border: none;
+  background-color: #4ede79;
+  color: white;
+  cursor: pointer;
+  border-radius: 5px;
+  font-weight: 600;
+}
+
+.login-buttons button:hover,
+.aims-login:hover {
+  background-color: #38a358;;
+}
+
+/* Terms and footer text */
+.terms {
+  font-size: 12px;
+  color: #ff0000;
+  font-weight: 500;
+}
+
+.footer {
+  font-size: 25px;
+  color: #ffffff;
+  margin-top: 20px;
+  font-weight: bold;
+}
+.login-form{
+  display: flex;
+  flex-direction: column;
+  text-align: left;
+}
+/* General styling for the login options page */
+.login-options-container {
+  padding: 20px;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  
+  
+}
+.login-option{
+  border: 1px solid #c5c5c5;
+  border-radius: 5px;
+  margin: 10px;
+  padding: 20px;
+  min-width: 300px;
+  width: 50%;
+  background-color: #ffffffff;
+}
+
+.login-option h4 {
+  color: #333;
+}
+
+.login-option ul {
+  padding-left: 30px;
+}
+
+.login-option ul li {
+  margin: 5px 0;
+  font-size: 14px;
+  color: #555;
+}
+
+.course-box {
+  background-color: #fff;
+  padding: 15px;
+  margin: 10px 0;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.course-box p {
+  margin: 5px 0;
+}
+
+.course-box p strong {
+  color: #444;
+}
+.header{
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+}

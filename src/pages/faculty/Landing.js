@@ -1,18 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { BrowserRouter as Router, Route, Routes, Link } from 'react-router-dom';
-import Home from './Home';
-import Help from './Help'
-import Coursesoffered from './Courses/coursesOffered'
-import Create from './Courses/Create'
-import Offercourse from './Courses/offerCourse';
-import Uploadgrade from './Courses/uploadGrades';
-import Available from './Courses/Available';
 
-import Actionpending from './Mywork/actionPending'
-import Mycoursesoffered from './Mywork/myCoursesOffered';
-import Mycreatedcourses from './Mywork/myCreatedCourses';
-
-import Enrolledstudents from './Mywork/enrolledStudents'
 
 import '../../App.css'
 
@@ -40,13 +28,13 @@ function Landing(){
         setb(false)
     }
     return (
-        <Router>
+       
         <div >
 
-        <div className="flex bg-[#333] w-full items-center">
+        <div className="flex bg-[#333] w-full items-center header">
 
             <div onClick={setOff}>
-                <h6 className="text-zinc-100 ml-4"><Link to='/'> AIMS </Link></h6>
+                <h6 className="text-zinc-100 ml-4"><Link to='/home'> AIMS </Link></h6>
             </div>
 
             <div className="menu">
@@ -86,20 +74,7 @@ function Landing(){
             </div>
         </div>
         </div>
-    <Routes>
-        <Route path="/" element={<Home />} />
-        <Route path="/help" element={<Help />} />
-        <Route path="/coursesoffered" element={<Coursesoffered />} />
-        <Route path="/create" element={<Create />} />
-        <Route path="/offercourse" element={<Offercourse />} />
-        <Route path="/uploadgrade" element={<Uploadgrade />} />
-        <Route path="/available" element={<Available />} />
-        <Route path="/actionpending" element={<Actionpending />} />
-        <Route path="/mycoursesoffered" element={<Mycoursesoffered />} />
-        <Route path="/mycreatedcourses" element={<Mycreatedcourses />} />
-        <Route path='/enrolledstudents/:id' element={<Enrolledstudents />} />
-    </Routes>
-    </Router>
+   
 );
 }
 

@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios'
+import Landing from '../Landing'
 
 function ActionPending(){
     
@@ -9,14 +10,32 @@ function ActionPending(){
     const [advisor, setAdvisor]  = useState(false);
     const [data, setData] = useState([]);
     
-    // set this to true if your looged in faculty is an advisor
-    const isadvisor = true;
-
-    const [isChecked, setIschecked] = useState(false);
+    // set this to true if your logged in faculty is an advisor
+    const isadvisor = false;
+    //const [isadvisor, setIsadvisor] = useState(false);
     const [selectedRows, setSelectedRows] = useState([]);
     const [rows , setRows] = useState([]);
     const [show , setShow] = useState(false)
     const [s , setS] = useState(false)
+    
+    //useEffect(() => {
+    //    const checkAdvisor = async () => {
+    //    try {
+    //        const response = await axios.get(`http://localhost:5000/faculty/facultyadvisor/${email}`);
+    //
+    //        if (response.ok) {
+    //            const result = await response.json();
+    //            setIsadvisor(result);
+    //        } else {
+    //            console.error('Failed to fetch role status');
+    //        }
+    //    } catch (error) {
+    //        console.error('Error fetching advisor:', error);
+    //    }
+    //    };
+    //
+    //    checkAdvisor();
+    //}, []);
 
     useEffect( () => {
         handleCreate();
@@ -134,7 +153,9 @@ function ActionPending(){
     
     return (
     
-    <div className='mt-[2rem] ml-[4rem]'>
+    <div>
+    <Landing />
+    <div className='mt-[6rem] ml-[6rem]'>
         <div className='flex '>
             <button onClick={handleCreate} className='pl-1 border border-gray-500 bg-gray-300' > New Courses Created </button>
             <button onClick={handleMain} className='pl-1 border border-gray-500 bg-gray-300' > OfferedCourses </button>
@@ -314,6 +335,7 @@ function ActionPending(){
             )
         }
 
+    </div>
     </div>
     )
 

@@ -1,10 +1,11 @@
 import React, { useEffect, useState } from 'react';
-
+import Landing from './Landing'
 
 function HomePage(){
     return (
         <div className='flex items-center justify-center mt-8'>
-           <div >
+          <Landing/>
+          <div className='mt-[6rem] ml-[6rem]'>
           <h1 className='text-3xl font-semibold'>Academic Information Management System.</h1>
           <h3 className='text-red-500 font-semibold'>Please DO NOT edit or manipulate the URLs or requests when using this application. Doing so may lock your account.</h3>
           <h6>Please proceed by choosing a menu item from the top bar.</h6>

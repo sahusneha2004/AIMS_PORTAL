@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios'
+import Landing from '../Landing'
 
 function Available(){
 
@@ -22,7 +23,9 @@ function Available(){
     }, []);
 
     return (
-        <div className=' ml-[4rem] mt-[2rem]'>
+        <div>
+            <Landing />
+            <div className='mt-[6rem] ml-[6rem]'>
             <div className='border-b w-[72rem] h-[2rem]'>
                 <h1>Courses available for offerings</h1>
             </div>
@@ -41,6 +44,8 @@ function Available(){
                 </div>
             )}
         </div>
+        </div>
+        
     );
 };
 

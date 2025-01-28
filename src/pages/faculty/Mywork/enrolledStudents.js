@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { BrowserRouter as Router, Route, Routes, Link } from 'react-router-dom';
 import axios from 'axios'
+import Landing from '../Landing'
 
 import { useParams } from 'react-router-dom';
 
@@ -23,7 +24,9 @@ function Enrolledstudents(){
     
     return (
     
-        <div className='flex flex-col mt-[2rem] ml-[4rem] gap-2 '>
+        <div>
+        <Landing />
+        <div className='flex flex-col mt-[6rem] ml-[6rem] gap-2 '>
             <h1>Offered Courses Detail</h1>
                 <table className=" table-auto border-collapse border border-gray-300 w-full text-left">
                     <thead>
@@ -45,6 +48,7 @@ function Enrolledstudents(){
                         ))}
                     </tbody>
                 </table>
+        </div>
         </div>
     )
 };
