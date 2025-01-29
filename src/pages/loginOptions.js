@@ -4,8 +4,10 @@ import axios from 'axios';
 import { GoogleLogin } from '@react-oauth/google'; // Google auth package
 import { useNavigate } from 'react-router-dom'; // For navigation
 import { useAuth } from '../AuthContext';
+import Login from './login';
 const ADMIN_URL = process.env.REACT_APP_ADMIN_URL;
 function LoginOptions() {
+  const { login } = useAuth();
   const navigate = useNavigate();
   const { logout } = useAuth();
   const handleAimsLogin = () => {
@@ -18,15 +20,17 @@ function LoginOptions() {
     // Decode the token
     const decodedToken = jwtDecode(credentialResponse.credential);
     const userEmail = decodedToken.email; // Extract email from the token
-
+    // console.log('Toekn:', );
+   
     try {
       // Call the backend API to check if the user can log in
       const response = await axios.post(`${ADMIN_URL}/check-user`, {
         email: userEmail,
       });
-
+      const token = credentialResponse;
       const { canLogin, role } = response.data;
-
+      login(token,role, userEmail);
+      console.log('User:', userEmail, 'Role:', role, 'Can login:', canLogin);
       if (canLogin) {
         if (role === "admin") {
           navigate("/admin");
